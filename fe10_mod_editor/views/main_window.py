@@ -1,5 +1,7 @@
 """Main application window for the FE10 Mod Editor."""
 
+import os
+
 from PySide6.QtWidgets import (
     QMainWindow, QTabWidget, QWidget, QLabel,
     QToolBar, QStatusBar, QFileDialog, QMessageBox,
@@ -8,7 +10,9 @@ from PySide6.QtGui import QAction, QKeySequence
 from PySide6.QtCore import Qt
 
 from fe10_mod_editor.models.project import ProjectFile
+from fe10_mod_editor.models.item_data import ItemDatabase
 from fe10_mod_editor.views.misc_tab import MiscTab
+from fe10_mod_editor.views.items_tab import ItemsTab
 
 
 class MainWindow(QMainWindow):
@@ -17,6 +21,7 @@ class MainWindow(QMainWindow):
 
         self.project: ProjectFile = ProjectFile.new()
         self.project_path: str | None = None
+        self.item_database: ItemDatabase | None = None
 
         self.setWindowTitle("FE10 Mod Editor")
         self.setMinimumSize(1200, 800)
@@ -89,8 +94,9 @@ class MainWindow(QMainWindow):
         self._tabs = QTabWidget(self)
         self.setCentralWidget(self._tabs)
 
-        # Items tab — placeholder
-        self._tabs.addTab(QWidget(), "Items")
+        # Items tab
+        self._items_tab = ItemsTab(self.project, self.item_database)
+        self._tabs.addTab(self._items_tab, "Items")
 
         # Shops tab — placeholder
         self._tabs.addTab(QWidget(), "Shops")
@@ -112,6 +118,8 @@ class MainWindow(QMainWindow):
     def _on_new(self):
         self.project = ProjectFile.new()
         self.project_path = None
+        self.item_database = None
+        self._refresh_items_tab()
         self._refresh_misc_tab()
         self._project_name_label.setText("  New project")
         self.statusBar().showMessage("New project created.")
@@ -128,6 +136,8 @@ class MainWindow(QMainWindow):
         try:
             self.project = ProjectFile.load(path)
             self.project_path = path
+            self._load_item_database()
+            self._refresh_items_tab()
             self._refresh_misc_tab()
             self._project_name_label.setText(f"  {path}")
             self.statusBar().showMessage(f"Opened: {path}")
@@ -160,6 +170,37 @@ class MainWindow(QMainWindow):
     # ------------------------------------------------------------------
     # Internal helpers
     # ------------------------------------------------------------------
+
+    def _load_item_database(self):
+        """Decompress FE10Data.cms from backup_dir and build ItemDatabase."""
+        backup_dir = self.project.paths.get("backup_dir", "")
+        if not backup_dir:
+            self.item_database = None
+            return
+
+        cms_path = os.path.join(backup_dir, "FE10Data.cms.lz")
+        if not os.path.isfile(cms_path):
+            # Also try uncompressed
+            cms_path_raw = os.path.join(backup_dir, "FE10Data.cms")
+            if os.path.isfile(cms_path_raw):
+                with open(cms_path_raw, "rb") as f:
+                    data = f.read()
+            else:
+                self.item_database = None
+                return
+        else:
+            from fe10_mod_editor.core.lz10 import decompress_lz10
+            with open(cms_path, "rb") as f:
+                compressed = f.read()
+            data = decompress_lz10(compressed)
+
+        from fe10_mod_editor.core.item_parser import parse_all_items
+        parsed = parse_all_items(data)
+        self.item_database = ItemDatabase.from_parsed_items(parsed)
+
+    def _refresh_items_tab(self):
+        """Update the Items tab with current project and item database."""
+        self._items_tab.set_data_source(self.item_database, self.project)
 
     def _refresh_misc_tab(self):
         """Replace the Misc tab widget after a project reload."""
