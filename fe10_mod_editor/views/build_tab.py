@@ -1,4 +1,11 @@
-"""Build tab — build configuration, execution, and log output."""
+"""Files tab — game directory selection, backup management, build log, and restore.
+
+Formerly the "Build" tab. Now the entry-point tab where the user points at
+their game directory and the app auto-detects / creates backups.
+"""
+
+import os
+import shutil
 
 from PySide6.QtCore import QThread, Signal, Qt
 from PySide6.QtGui import QFont
@@ -30,7 +37,17 @@ class BuildWorker(QThread):
             self.finished_error.emit(str(e))
 
 
-class BuildTab(QWidget):
+# Signal emitted when game directory is validated and data should be loaded.
+# The MainWindow connects to this to trigger item/shop database loading.
+
+
+class FilesTab(QWidget):
+    """Files tab: game directory, backup verification, change summary, build log."""
+
+    # Emitted when the game directory is validated and backups are ready.
+    # The MainWindow should connect to this to reload databases and refresh tabs.
+    game_directory_ready = Signal(str)  # emits the game_dir path
+
     def __init__(self, project: ProjectFile, parent=None):
         super().__init__(parent)
         self.project = project
@@ -60,8 +77,6 @@ class BuildTab(QWidget):
         left_layout.addSpacing(12)
         self._add_summary_section(left_layout)
         left_layout.addSpacing(12)
-        self._add_build_button(left_layout)
-        left_layout.addSpacing(12)
         self._add_danger_zone(left_layout)
         left_layout.addStretch()
 
@@ -86,32 +101,16 @@ class BuildTab(QWidget):
         splitter.setStretchFactor(1, 2)
 
     def _add_paths_section(self, layout: QVBoxLayout):
-        heading = QLabel("Paths")
+        heading = QLabel("Game Directory")
         heading.setStyleSheet("font-weight: bold; font-size: 13px;")
         layout.addWidget(heading)
 
-        # Backup Directory row
-        backup_row = QHBoxLayout()
-        backup_label = QLabel("Backup Directory:")
-        backup_label.setFixedWidth(130)
-        self._backup_dir_edit = QLineEdit()
-        self._backup_dir_edit.setPlaceholderText("Select backup directory…")
-        self._backup_dir_edit.setText(self.project.paths.get("backup_dir", ""))
-        self._backup_dir_edit.textChanged.connect(self._on_backup_dir_changed)
-        backup_browse = QPushButton("Browse")
-        backup_browse.setFixedWidth(70)
-        backup_browse.clicked.connect(self._browse_backup_dir)
-        backup_row.addWidget(backup_label)
-        backup_row.addWidget(self._backup_dir_edit)
-        backup_row.addWidget(backup_browse)
-        layout.addLayout(backup_row)
-
-        # Game Directory row
+        # Game Directory row (the only path the user needs to set)
         game_row = QHBoxLayout()
         game_label = QLabel("Game Directory:")
         game_label.setFixedWidth(130)
         self._game_dir_edit = QLineEdit()
-        self._game_dir_edit.setPlaceholderText("Select game directory…")
+        self._game_dir_edit.setPlaceholderText("Select game DATA directory (e.g. .../Game/DATA)")
         self._game_dir_edit.setText(self.project.paths.get("game_dir", ""))
         self._game_dir_edit.textChanged.connect(self._on_game_dir_changed)
         game_browse = QPushButton("Browse")
@@ -123,11 +122,9 @@ class BuildTab(QWidget):
         layout.addLayout(game_row)
 
         # Validation indicator
-        self._validation_label = QLabel("Backup not verified")
-        self._validation_label.setStyleSheet("color: red;")
+        self._validation_label = QLabel("No game directory selected")
+        self._validation_label.setStyleSheet("color: gray;")
         layout.addWidget(self._validation_label)
-
-        self._refresh_validation()
 
     def _add_summary_section(self, layout: QVBoxLayout):
         heading = QLabel("Change Summary")
@@ -144,13 +141,6 @@ class BuildTab(QWidget):
         layout.addWidget(self._difficulty_overrides_label)
         layout.addWidget(self._misc_toggles_label)
 
-    def _add_build_button(self, layout: QVBoxLayout):
-        self._build_btn = QPushButton("Build Mod")
-        self._build_btn.setFixedHeight(48)
-        self._build_btn.setStyleSheet("font-size: 15px; font-weight: bold;")
-        self._build_btn.clicked.connect(self._on_build)
-        layout.addWidget(self._build_btn)
-
     def _add_danger_zone(self, layout: QVBoxLayout):
         danger_heading = QLabel("Danger Zone")
         danger_heading.setStyleSheet("font-weight: bold; font-size: 13px; color: red;")
@@ -164,41 +154,88 @@ class BuildTab(QWidget):
     # Slots
     # ------------------------------------------------------------------
 
-    def _browse_backup_dir(self):
-        path = QFileDialog.getExistingDirectory(self, "Select Backup Directory")
-        if path:
-            self._backup_dir_edit.setText(path)
-
     def _browse_game_dir(self):
-        path = QFileDialog.getExistingDirectory(self, "Select Game Directory")
+        path = QFileDialog.getExistingDirectory(self, "Select Game DATA Directory")
         if path:
             self._game_dir_edit.setText(path)
 
-    def _on_backup_dir_changed(self, text: str):
-        self.project.paths["backup_dir"] = text
-        self._refresh_validation()
-
     def _on_game_dir_changed(self, text: str):
         self.project.paths["game_dir"] = text
+        self._auto_detect_and_load(text)
 
-    def _refresh_validation(self):
-        """Check whether backup files are verified and update the indicator label."""
-        from fe10_mod_editor.core.backup_manager import verify_backup_hashes
-        stored = self.project.backup_hashes
-        backup_dir = self.project.paths.get("backup_dir", "")
+    def _auto_detect_and_load(self, game_dir: str):
+        """Validate game directory, auto-create/verify backup, emit ready signal."""
+        if not game_dir or not os.path.isdir(game_dir):
+            self._validation_label.setText("No game directory selected")
+            self._validation_label.setStyleSheet("color: gray;")
+            return
 
-        if not stored or not backup_dir:
-            self._validation_label.setText("Backup not verified")
+        # Check for expected game files
+        expected_files = {
+            "FE10Data.cms": os.path.join(game_dir, "files", "FE10Data.cms"),
+            "shopitem_n.bin": os.path.join(game_dir, "files", "Shop", "shopitem_n.bin"),
+            "shopitem_m.bin": os.path.join(game_dir, "files", "Shop", "shopitem_m.bin"),
+            "shopitem_h.bin": os.path.join(game_dir, "files", "Shop", "shopitem_h.bin"),
+            "fst.bin": os.path.join(game_dir, "sys", "fst.bin"),
+        }
+
+        missing = [name for name, path in expected_files.items() if not os.path.isfile(path)]
+        if missing:
+            self._validation_label.setText(f"Missing game files: {', '.join(missing)}")
             self._validation_label.setStyleSheet("color: red;")
             return
 
-        result = verify_backup_hashes(backup_dir, stored)
-        if result.ok:
-            self._validation_label.setText("Backup files verified")
-            self._validation_label.setStyleSheet("color: green;")
-        else:
-            self._validation_label.setText(f"Backup not verified: {result.error}")
+        # Derive backup directory as sibling of game_dir
+        # e.g. game_dir = .../Game/DATA  =>  backup_dir = .../Backup
+        backup_dir = os.path.join(os.path.dirname(game_dir), "Backup")
+        self.project.paths["backup_dir"] = backup_dir
+
+        try:
+            self._ensure_backup(backup_dir, expected_files)
+        except Exception as exc:
+            self._validation_label.setText(f"Backup error: {exc}")
             self._validation_label.setStyleSheet("color: red;")
+            return
+
+        self._validation_label.setText(f"Backup verified ({backup_dir})")
+        self._validation_label.setStyleSheet("color: green;")
+
+        # Signal the main window to load databases
+        self.game_directory_ready.emit(game_dir)
+
+    def _ensure_backup(self, backup_dir: str, expected_files: dict[str, str]):
+        """Create backup directory if needed, copy originals, compute/verify hashes."""
+        from fe10_mod_editor.core.backup_manager import (
+            compute_backup_hashes, verify_backup_hashes, BACKUP_FILES,
+        )
+
+        if not os.path.isdir(backup_dir):
+            # First time: create backup directory and copy files
+            os.makedirs(backup_dir, exist_ok=True)
+            for fname in BACKUP_FILES:
+                src = expected_files[fname]
+                dst = os.path.join(backup_dir, fname)
+                shutil.copy2(src, dst)
+
+            # Compute and store hashes
+            hashes = compute_backup_hashes(backup_dir)
+            self.project.backup_hashes = hashes
+        else:
+            # Backup exists — check if we have stored hashes
+            if not self.project.backup_hashes:
+                # Compute hashes from existing backup
+                hashes = compute_backup_hashes(backup_dir)
+                self.project.backup_hashes = hashes
+            else:
+                # Verify stored hashes match backup files
+                result = verify_backup_hashes(backup_dir, self.project.backup_hashes)
+                if not result.ok:
+                    raise RuntimeError(result.error)
+
+    def _refresh_validation(self):
+        """Re-run validation against current project state."""
+        game_dir = self.project.paths.get("game_dir", "")
+        self._auto_detect_and_load(game_dir)
 
     def refresh_summary(self):
         """Update change-count labels from current project state."""
@@ -220,26 +257,29 @@ class BuildTab(QWidget):
         self._difficulty_overrides_label.setText(f"Difficulty overrides: {difficulty_overrides}")
         self._misc_toggles_label.setText(f"Misc toggles active: {misc_toggles}")
 
-    def _on_build(self):
+    # ------------------------------------------------------------------
+    # Build (called by main window's Build button)
+    # ------------------------------------------------------------------
+
+    def start_build(self):
+        """Start a build. Called from the main window's persistent Build button."""
         self._log_view.clear()
-        self._build_btn.setEnabled(False)
 
         self._worker = BuildWorker(self.project)
         self._worker.log_message.connect(self._append_log)
         self._worker.finished_ok.connect(self._on_build_ok)
         self._worker.finished_error.connect(self._on_build_error)
         self._worker.start()
+        return self._worker  # So main window can disable/enable its button
 
     def _append_log(self, message: str):
         self._log_view.appendPlainText(message)
 
     def _on_build_ok(self):
-        self._build_btn.setEnabled(True)
         self._append_log("--- Build succeeded ---")
         self._status_bar_message("Build completed successfully.")
 
     def _on_build_error(self, error: str):
-        self._build_btn.setEnabled(True)
         self._append_log(f"--- Build FAILED: {error} ---")
         self._status_bar_message(f"Build failed: {error}")
 
@@ -256,7 +296,6 @@ class BuildTab(QWidget):
 
         try:
             from fe10_mod_editor.core.backup_manager import restore_backup
-            import os
             backup_dir = self.project.paths.get("backup_dir", "")
             game_dir = self.project.paths.get("game_dir", "")
             game_files = os.path.join(game_dir, "files")
@@ -273,3 +312,7 @@ class BuildTab(QWidget):
         window = self.window()
         if hasattr(window, "statusBar"):
             window.statusBar().showMessage(msg)
+
+
+# Keep backward-compatible alias so existing imports work
+BuildTab = FilesTab

@@ -3,8 +3,8 @@
 import os
 
 from PySide6.QtWidgets import (
-    QMainWindow, QTabWidget, QWidget, QLabel,
-    QToolBar, QStatusBar, QFileDialog, QMessageBox,
+    QMainWindow, QTabWidget, QWidget, QLabel, QVBoxLayout, QHBoxLayout,
+    QToolBar, QStatusBar, QFileDialog, QMessageBox, QPushButton,
 )
 from PySide6.QtGui import QAction, QKeySequence
 from PySide6.QtCore import Qt
@@ -15,7 +15,7 @@ from fe10_mod_editor.models.shop_data import ShopDatabase
 from fe10_mod_editor.views.misc_tab import MiscTab
 from fe10_mod_editor.views.items_tab import ItemsTab
 from fe10_mod_editor.views.shops_tab import ShopsTab
-from fe10_mod_editor.views.build_tab import BuildTab
+from fe10_mod_editor.views.build_tab import FilesTab
 
 
 class MainWindow(QMainWindow):
@@ -32,7 +32,7 @@ class MainWindow(QMainWindow):
 
         self._build_menu_bar()
         self._build_toolbar()
-        self._build_tabs()
+        self._build_central_area()
         self._build_status_bar()
 
     # ------------------------------------------------------------------
@@ -50,7 +50,7 @@ class MainWindow(QMainWindow):
         new_action.triggered.connect(self._on_new)
         file_menu.addAction(new_action)
 
-        open_action = QAction("&Open Project…", self)
+        open_action = QAction("&Open Project\u2026", self)
         open_action.setShortcut(QKeySequence("Ctrl+O"))
         open_action.triggered.connect(self._on_open)
         file_menu.addAction(open_action)
@@ -62,19 +62,12 @@ class MainWindow(QMainWindow):
         save_action.triggered.connect(self._on_save)
         file_menu.addAction(save_action)
 
-        save_as_action = QAction("Save &As…", self)
+        save_as_action = QAction("Save &As\u2026", self)
         save_as_action.setShortcut(QKeySequence("Ctrl+Shift+S"))
         save_as_action.triggered.connect(self._on_save_as)
         file_menu.addAction(save_as_action)
 
-        # Edit menu (stub)
-        menu_bar.addMenu("&Edit")
-
-        # Tools menu (stub)
-        menu_bar.addMenu("&Tools")
-
-        # Help menu (stub)
-        menu_bar.addMenu("&Help")
+        # Empty stub menus removed (Edit, Tools, Help had no entries)
 
     def _build_toolbar(self):
         toolbar = QToolBar("Main Toolbar", self)
@@ -94,9 +87,21 @@ class MainWindow(QMainWindow):
         self._project_name_label = QLabel("  No project loaded")
         toolbar.addWidget(self._project_name_label)
 
-    def _build_tabs(self):
-        self._tabs = QTabWidget(self)
-        self.setCentralWidget(self._tabs)
+    def _build_central_area(self):
+        """Build the central widget: tab bar on top, persistent Build button at bottom."""
+        central = QWidget(self)
+        layout = QVBoxLayout(central)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+
+        # Tab widget
+        self._tabs = QTabWidget()
+        layout.addWidget(self._tabs, stretch=1)
+
+        # Files tab (first tab — entry point)
+        self._files_tab = FilesTab(self.project)
+        self._files_tab.game_directory_ready.connect(self._on_game_directory_ready)
+        self._tabs.addTab(self._files_tab, "Files")
 
         # Items tab
         self._items_tab = ItemsTab(self.project, self.item_database)
@@ -106,15 +111,26 @@ class MainWindow(QMainWindow):
         self._shops_tab = ShopsTab(self.project)
         self._tabs.addTab(self._shops_tab, "Shops")
 
-        # Build tab
-        self._build_tab = BuildTab(self.project)
-        self._tabs.addTab(self._build_tab, "Build")
+        # Misc tab
+        self._misc_tab = MiscTab(self.project)
+        self._tabs.addTab(self._misc_tab, "Misc")
 
         self._tabs.currentChanged.connect(self._on_tab_changed)
 
-        # Misc tab — fully implemented
-        self._misc_tab = MiscTab(self.project)
-        self._tabs.addTab(self._misc_tab, "Misc")
+        # Persistent Build button bar (always visible below tabs)
+        build_bar = QHBoxLayout()
+        build_bar.setContentsMargins(8, 4, 8, 4)
+        build_bar.addStretch()
+        self._build_btn = QPushButton("Build Mod")
+        self._build_btn.setFixedHeight(48)
+        self._build_btn.setMinimumWidth(200)
+        self._build_btn.setStyleSheet("font-size: 15px; font-weight: bold;")
+        self._build_btn.clicked.connect(self._on_build)
+        build_bar.addWidget(self._build_btn)
+        build_bar.addStretch()
+        layout.addLayout(build_bar)
+
+        self.setCentralWidget(central)
 
     def _build_status_bar(self):
         self.statusBar().showMessage("Ready")
@@ -131,7 +147,7 @@ class MainWindow(QMainWindow):
         self._refresh_items_tab()
         self._refresh_shops_tab()
         self._refresh_misc_tab()
-        self._refresh_build_tab()
+        self._refresh_files_tab()
         self._project_name_label.setText("  New project")
         self.statusBar().showMessage("New project created.")
 
@@ -152,7 +168,7 @@ class MainWindow(QMainWindow):
             self._refresh_items_tab()
             self._refresh_shops_tab()
             self._refresh_misc_tab()
-            self._refresh_build_tab()
+            self._refresh_files_tab()
             self._project_name_label.setText(f"  {path}")
             self._update_status_bar_counts()
         except Exception as exc:
@@ -180,6 +196,36 @@ class MainWindow(QMainWindow):
         self.project_path = path
         self._project_name_label.setText(f"  {path}")
         self._on_save()
+
+    # ------------------------------------------------------------------
+    # Game directory auto-detection callback
+    # ------------------------------------------------------------------
+
+    def _on_game_directory_ready(self, game_dir: str):
+        """Called when the Files tab validates the game directory and backups are ready."""
+        self._load_item_database()
+        self._load_shop_database()
+        self._refresh_items_tab()
+        self._refresh_shops_tab()
+        self._update_status_bar_counts()
+
+    # ------------------------------------------------------------------
+    # Build button
+    # ------------------------------------------------------------------
+
+    def _on_build(self):
+        """Start a build via the persistent Build button."""
+        self._build_btn.setEnabled(False)
+        # Switch to Files tab so user can see the build log
+        self._tabs.setCurrentWidget(self._files_tab)
+
+        worker = self._files_tab.start_build()
+        if worker:
+            worker.finished_ok.connect(self._on_build_finished)
+            worker.finished_error.connect(self._on_build_finished)
+
+    def _on_build_finished(self, *args):
+        self._build_btn.setEnabled(True)
 
     # ------------------------------------------------------------------
     # Internal helpers
@@ -248,19 +294,18 @@ class MainWindow(QMainWindow):
 
     def _refresh_misc_tab(self):
         """Replace the Misc tab widget after a project reload."""
-        misc_index = 3  # Items=0, Shops=1, Build=2, Misc=3
+        misc_index = 3  # Files=0, Items=1, Shops=2, Misc=3
         self._misc_tab = MiscTab(self.project)
         self._tabs.removeTab(misc_index)
         self._tabs.insertTab(misc_index, self._misc_tab, "Misc")
         self._tabs.setCurrentIndex(misc_index)
 
-    def _refresh_build_tab(self):
-        """Sync build tab paths and refresh summary counts."""
-        self._build_tab.project = self.project
-        self._build_tab._backup_dir_edit.setText(self.project.paths.get("backup_dir", ""))
-        self._build_tab._game_dir_edit.setText(self.project.paths.get("game_dir", ""))
-        self._build_tab._refresh_validation()
-        self._build_tab.refresh_summary()
+    def _refresh_files_tab(self):
+        """Sync files tab paths and refresh summary counts."""
+        self._files_tab.project = self.project
+        self._files_tab._game_dir_edit.setText(self.project.paths.get("game_dir", ""))
+        self._files_tab._refresh_validation()
+        self._files_tab.refresh_summary()
 
     def _update_status_bar_counts(self):
         """Update status bar with item count and modified count."""
@@ -271,7 +316,7 @@ class MainWindow(QMainWindow):
         )
 
     def _on_tab_changed(self, index: int):
-        """Refresh build tab summary when switching to it."""
-        build_index = 2  # Items=0, Shops=1, Build=2, Misc=3
-        if index == build_index:
-            self._build_tab.refresh_summary()
+        """Refresh files tab summary when switching to it."""
+        files_index = 0  # Files=0, Items=1, Shops=2, Misc=3
+        if index == files_index:
+            self._files_tab.refresh_summary()
