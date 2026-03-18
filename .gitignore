@@ -1,0 +1,30 @@
+# Game data (large binary files - not tracked in git)
+Game/
+Backup/
+
+# Brainstorming mockups
+.superpowers/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+
+# IDE
+.vscode/
+.idea/
+
+# Claude Code
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Virtual environments
+venv/
+.venv/

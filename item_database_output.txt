@@ -1,0 +1,757 @@
+==================================================================================================================================================================================================================
+FIRE EMBLEM: RADIANT DAWN - COMPLETE ITEM DATABASE (296 items)
+Extracted from FE10Data_decompressed.bin
+ItemData section: 0xDF44 to 0x12810 | Count at 0xDF44 = 296 | Entry data starts at 0xDF48
+
+ENTRY STRUCTURE (variable length, minimum 56 bytes):
+  Offset  0-3:   IID string pointer (big-endian, +0x20 for file offset)
+  Offset  4-7:   MIID string pointer (message ID)
+  Offset  8-11:  MH_I string pointer (help message)
+  Offset 12-15:  Display weapon type pointer
+  Offset 16-19:  Actual weapon type pointer
+  Offset 20-23:  Weapon rank pointer
+  Offset 24-27:  Effect slot 1 pointer
+  Offset 28-31:  Effect slot 2 pointer
+  Offset 32-35:  Effect slot 3 pointer
+  Offset 36:     Unknown byte
+  Offset 37:     Icon ID
+  Offset 38-39:  Cost per use (big-endian u16)
+  Offset 40:     Might
+  Offset 41:     Accuracy (Hit)
+  Offset 42:     Critical
+  Offset 43:     Weight
+  Offset 44:     Uses (durability)
+  Offset 45:     Weapon EXP gain
+  Offset 46:     Min range
+  Offset 47:     Max range
+  Offset 48:     Unknown flag byte
+  Offset 49-51:  Padding (always 0x000000)
+  Offset 52:     Always 0x04
+  Offset 53:     Attribute pointer count (N)
+  Offset 54:     Effectiveness pointer count (M)
+  Offset 55:     PRF flag (0 or 1; when 1, adds 3 extra dwords)
+  Offset 56+:    N attr ptrs, then M eff ptrs, then 3 PRF dwords if flag=1
+  Total size = 56 + (N * 4) + (M * 4) + (PRF_flag * 12)
+==================================================================================================================================================================================================================
+
+WEAPON TYPE SUMMARY:
+  axe                 :  16 items
+  ballista            :   5 items
+  blow                :  53 items
+  bow                 :  18 items
+  card                :   3 items
+  dark                :   5 items
+  flame               :   8 items
+  item                :  90 items
+  knife               :  13 items
+  lance               :  16 items
+  light               :  11 items
+  rod                 :  21 items
+  sword               :  23 items
+  thunder             :   7 items
+  wind                :   7 items
+  TOTAL               : 296 items
+
+ENTRY SIZE DISTRIBUTION:
+   56 bytes (0x38):  57 entries
+   60 bytes (0x3C): 113 entries
+   64 bytes (0x40):  54 entries
+   68 bytes (0x44):  41 entries
+   72 bytes (0x48):  11 entries
+   76 bytes (0x4C):   6 entries
+   80 bytes (0x50):   5 entries
+   84 bytes (0x54):   7 entries
+   88 bytes (0x58):   1 entries
+   92 bytes (0x5C):   1 entries
+
+==================================================================================================================================================================================================================
+COMPLETE ITEM LIST (sequential order by file offset, all 296 entries)
+==================================================================================================================================================================================================================
+  #  Offset  Sz IID                                 DispType   ActType    Rank  Mt Hit Crt  Wt  Use WXP   Rng   $/u TotPrice Attributes                               Effectiveness            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  0  0XDF48  56 IID_DELICATESWORD                   sword      sword         E   2 100   5   3   35   1   1-1    16      560                                                                   
+  1  0XDF80  60 IID_BRONZESWORD                     sword      sword         E   3  95   0   5   50   1   1-1     7      350 crit0                                                             
+  2  0XDFBC  56 IID_IRONSWORD                       sword      sword         D   6  90   0   7   50   2   1-1    10      500                                                                   
+  3  0XDFF4  56 IID_STEELSWORD                      sword      sword         C   9  85   0  11   40   3   1-1    20      800                                                                   
+  4  0XE02C  56 IID_SILVERSWORD                     sword      sword         A  12  80   0  10   30   5   1-1    60     1800                                                                   
+  5  0XE064  56 IID_IRONBLADE                       sword      sword         C  10  70   0  13   40   3   1-1    20      800                                                                   
+  6  0XE09C  56 IID_STEELBLADE                      sword      sword         B  13  65   0  17   35   4   1-1    40     1400                                                                   
+  7  0XE0D4  56 IID_SILVERBLADE                     sword      sword         A  16  60   0  16   30   5   1-1   120     3600                                                                   
+  8  0XE10C  60 IID_POISONSWORD                     sword      sword         D   6  90   0   7   50   1   1-1     6      300 poison                                                            
+  9  0XE148  60 IID_BRAVESWORD                      sword      sword         C   9  90   0   9   40   2   1-1    70     2800 twice                                                             
+ 10  0XE184  56 IID_KILLSWORD                       sword      sword         B   8  85  30   8   30   2   1-1   120     3600                                                                   
+ 11  0XE1BC  60 IID_DRAGONKILLER                    sword      sword         B  11  70   0  14   20   3   1-1   180     3600                                          SFXC_DRAGON              
+ 12  0XE1F8  56 IID_WATOU                           sword      sword         B   7  90  20   7   30   3   1-1   100     3000                                                                   
+ 13  0XE230  76 IID_CALADBORG                       sword      sword         N  15  85   5   8   40   2   1-1   150     6000 valuable, eqG | PRF:0x0,0x80000,0x0                               
+ 14  0XE27C  60 IID_WINDSWORD                       sword      sword         D   6  60   0  10   20   2   1-2    35      700 stormsw                                                           
+ 15  0XE2B8  60 IID_STORMSWORD                      sword      sword         B  12  50   0  11   20   3   1-2   200     4000 stormsw                                                           
+ 16  0XE2F4  60 IID_ENLILSWORD                      sword      sword         S  18  55   5  15   20   5   1-2   500    10000 stormsw                                                           
+ 17  0XE330  68 IID_VAGUEKATTI                      sword      sword         *  20  95   5  10   50   6   1-1   400    20000  | PRF:0x0,,0x0                                                   
+ 18  0XE374  68 IID_FLORETE                         sword      sword         N  14  95  15   5   45   4   1-2   200     9000 valuable, eqB, stormsw                                            
+ 19  0XE3B8  64 IID_ALONDITE                        sword      sword         N  12  75  10  17   50   5   1-1   150     7500 valuable, eqA                                                     
+ 20  0XE3F8  92 IID_RAGNELL                         sword      sword         N  18  80   5  20   15   2   1-2     0        0 valuable, eqA, stormsw, sealsteal, infinity, lookschange | PRF:0x0,	,0x0                          
+ 21  0XE454  80 IID_ETTARD                          sword      sword         *  18  80   5  20   15   8   1-2     0        0 valuable, stormsw, infinity | PRF:0x0,	,0x0                          
+ 22  0XE4A4  88 IID_AMITE                           sword      sword         N  15  90   0  10   40   2   1-1     0        0 valuable, eqC, twice, sealsteal, infinity | PRF:0x0,,0x0                          
+ 23  0XE4FC  56 IID_DELICATELANCE                   lance      lance         E   3  95   5   4   35   1   1-1    14      490                                                                   
+ 24  0XE534  60 IID_BRONZELANCE                     lance      lance         E   4  90   0   6   50   1   1-1     9      450 crit0                                                             
+ 25  0XE570  56 IID_IRONLANCE                       lance      lance         D   7  85   0   9   50   2   1-1    12      600                                                                   
+ 26  0XE5A8  56 IID_STEELLANCE                      lance      lance         C  10  80   0  13   40   3   1-1    24      960                                                                   
+ 27  0XE5E0  56 IID_SILVERLANCE                     lance      lance         A  13  80   0  12   30   5   1-1    72     2160                                                                   
+ 28  0XE618  56 IID_IRONSPEAR                       lance      lance         C  11  75   0  14   40   3   1-1    16      640                                                                   
+ 29  0XE650  56 IID_STEELSPEAR                      lance      lance         B  14  70   0  18   35   4   1-1    32     1120                                                                   
+ 30  0XE688  56 IID_SILVERSPEAR                     lance      lance         A  17  50   0  17   30   5   1-1    96     2880                                                                   
+ 31  0XE6C0  60 IID_POISONLANCE                     lance      lance         D   7  85   0   9   50   1   1-1     7      350 poison                                                            
+ 32  0XE6FC  60 IID_BRAVELANCE                      lance      lance         C  10  85   0  11   40   2   1-1    74     2960 twice                                                             
+ 33  0XE738  56 IID_KILLERLANCE                     lance      lance         B   9  80  30  10   30   2   1-1   144     4320                                                                   
+ 34  0XE770  60 IID_HORSEKILLER                     lance      lance         D  12  65   0  15   20   2   1-1    65     1300                                          SFXC_KNIGHT              
+ 35  0XE7AC  56 IID_HANDSPEAR                       lance      lance         D   7  65   0  11   20   2   1-2    30      600                                                                   
+ 36  0XE7E4  56 IID_SHORTSPEAR                      lance      lance         B  10  55   0  12   20   3   1-2   150     3000                                                                   
+ 37  0XE81C  56 IID_SLENDERSPEAR                    lance      lance         S  13  60   5  16   20   5   1-2   450     9000                                                                   
+ 38  0XE854  68 IID_ZANEZPHTE                       lance      lance         *  22 100   5  15   50   6   1-2   310    15500  | PRF:0x0,RIMEAARMOR,0x0                                         
+ 39  0XE898  64 IID_BRONZEAXE                       axe        axe           E   5  85   0   7   50   2   1-1     5      250 crit0                                    SFXC_DOORBREAK           
+ 40  0XE8D8  60 IID_IRONAXE                         axe        axe           D   8  80   0  11   50   2   1-1     8      400                                          SFXC_DOORBREAK           
+ 41  0XE914  60 IID_STEELAXE                        axe        axe           C  11  75   0  15   40   3   1-1    16      640                                          SFXC_DOORBREAK           
+ 42  0XE950  60 IID_SILVERAXE                       axe        axe           A  14  70   0  14   30   5   1-1    48     1440                                          SFXC_DOORBREAK           
+ 43  0XE98C  60 IID_IRONPOLEAXE                     axe        axe           C  12  65   0  16   40   3   1-1    10      400                                          SFXC_DOORBREAK           
+ 44  0XE9C8  60 IID_STEELPOLEAXE                    axe        axe           B  15  60   0  20   35   4   1-1    20      700                                          SFXC_DOORBREAK           
+ 45  0XEA04  60 IID_SILVERPOLEAXE                   axe        axe           A  18  60   0  19   30   5   1-1    60     1800                                          SFXC_DOORBREAK           
+ 46  0XEA40  64 IID_POISONAXE                       axe        axe           D   8  80   0  11   50   1   1-1     5      250 poison                                   SFXC_DOORBREAK           
+ 47  0XEA80  64 IID_BRAVEAXE                        axe        axe           C  11  80   0  13   40   2   1-1    66     2640 twice                                    SFXC_DOORBREAK           
+ 48  0XEAC0  60 IID_KILLERAXE                       axe        axe           B  10  75  30  12   30   2   1-1    96     2880                                          SFXC_DOORBREAK           
+ 49  0XEAFC  64 IID_HAMMER                          axe        axe           D  13  60   0  17   20   2   1-1    40      800                                          SFXC_ARMOR, SFXC_DOORBREAK
+ 50  0XEB3C  60 IID_HANDAXE                         axe        axe           D   9  70   0  12   25   2   1-2    25      625                                          SFXC_DOORBREAK           
+ 51  0XEB78  60 IID_SHORTAXE                        axe        axe           B  12  60   0  13   15   3   1-2   100     1500                                          SFXC_DOORBREAK           
+ 52  0XEBB4  60 IID_TOMAHAWK                        axe        axe           S  15  65   5  17   15   5   1-2   400     6000                                          SFXC_DOORBREAK           
+ 53  0XEBF0  80 IID_TARVOS                          axe        axe           N  18 100   5  12   40   2   1-1   150     6000 valuable, eqI | PRF:0x0,,0x0             SFXC_DOORBREAK           
+ 54  0XEC40  72 IID_URVAN                           axe        axe           *  22 110   5  17   50   6   1-1   300    15000  | PRF:0x0,,0x0                          SFXC_DOORBREAK           
+ 55  0XEC88  68 IID_BRONZEBOW                       bow        bow           E   3  80   0   4   50   1   2-2     8      400 expandrange, crit0                       SFXC_FLY                 
+ 56  0XECCC  64 IID_IRONBOW                         bow        bow           D   6  85   0   8   50   2   2-2    15      750 expandrange                              SFXC_FLY                 
+ 57  0XED0C  64 IID_STEELBOW                        bow        bow           C  10  80   0  10   35   3   2-2    30     1050 expandrange                              SFXC_FLY                 
+ 58  0XED4C  64 IID_SILVERBOW                       bow        bow           A  15  75   0   9   25   5   2-2    90     2250 expandrange                              SFXC_FLY                 
+ 59  0XED8C  60 IID_IRONLONGBOW                     bow        bow           C   8  65   0  15   20   2   2-3   100     2000                                          SFXC_FLY                 
+ 60  0XEDC8  60 IID_STEELLONGBOW                    bow        bow           B  12  60   0  18   20   3   2-3   200     4000                                          SFXC_FLY                 
+ 61  0XEE04  60 IID_SILVERLONGBOW                   bow        bow           S  17  55   0  17   20   5   2-3   600    12000                                          SFXC_FLY                 
+ 62  0XEE40  68 IID_POISONBOW                       bow        bow           D   6  85   0   8   50   1   2-2     8      400 expandrange, poison                      SFXC_FLY                 
+ 63  0XEE84  64 IID_KILLERBOW                       bow        bow           C   8  80  30   9   25   2   2-2    80     2000 expandrange                              SFXC_FLY                 
+ 64  0XEEC4  68 IID_BRAVEBOW                        bow        bow           B   9  85   0  10   40   2   2-2   180     7200 expandrange, twice                       SFXC_FLY                 
+ 65  0XEF08  64 IID_LOFABOW                         bow        bow           C   8  85   0   8   45   4   2-2    60     2700 expandrange                              SFXC_FLY                 
+ 66  0XEF48  64 IID_CHINONBOW                       bow        bow           A  16 100   5   6   50   5   2-2   160     8000 expandrange                              SFXC_FLY                 
+ 67  0XEF88  84 IID_LUGHNASAD                       bow        bow           N  16 100   5   5   40   2   2-2   150     6000 expandrange, valuable, eqH | PRF:0x0,0x5000000,0x0 SFXC_FLY                 
+ 68  0XEFDC  76 IID_VALFLECHE                       bow        bow           *  22 100   5  12   50   6   1-2   330    16500 expandrange | PRF:RIMEAARMOR,0x0,0x0     SFXC_FLY                 
+ 69  0XF028  60 IID_BOWGUN                          ballista   ballista      N  24 100   0  12   40   0   1-2    50     2000                                          SFXC_FLY                 
+ 70  0XF064  60 IID_CROSSBOW                        ballista   ballista      N  28 100   0  14   35   0   1-2   100     3500                                          SFXC_FLY                 
+ 71  0XF0A0  60 IID_TAKHSH                          ballista   ballista      N  30 100  10  16   30   0   1-2   200     6000                                          SFXC_FLY                 
+ 72  0XF0DC  60 IID_AQQAR                           ballista   ballista      N  34 100   0  18   25   0   1-2   250     6250                                          SFXC_FLY                 
+ 73  0XF118  60 IID_ARBALEST                        ballista   ballista      N  38 100  15  20   20   0   1-2   300     6000                                          SFXC_FLY                 
+ 74  0XF154  68 IID_LONGARCH                        bow        bow           E  18 100   0  20    5   0  3-10     0        0 longfar, sh                              SFXC_FLY                 
+ 75  0XF198  68 IID_IRONARCH                        bow        bow           E  28  90   0  20    5   0  3-15     0        0 longfar, sh                              SFXC_FLY                 
+ 76  0XF1DC  68 IID_KILLERARCH                      bow        bow           E  26  95  10  20    5   0  3-10     0        0 longfar, sh                              SFXC_FLY                 
+ 77  0XF220  72 IID_ONAGER                          bow        bow           E  22 255   0  20    5   0  3-10     0        0 longfar, stone, absolutehit, crit0                                
+ 78  0XF268  60 IID_BRONZEKNIFE                     knife      knife         E   1  70   0   1   30   1   1-2    16      480 crit0                                                             
+ 79  0XF2A4  56 IID_IRONKNIFE                       knife      knife         D   2  65   0   2   25   2   1-2    20      500                                                                   
+ 80  0XF2DC  56 IID_STEELKNIFE                      knife      knife         C   4  60   0   3   20   3   1-2    40      800                                                                   
+ 81  0XF314  56 IID_SILVERKNIFE                     knife      knife         A   7  60   0   4   15   5   1-2   120     1800                                                                   
+ 82  0XF34C  60 IID_BRONZEDAGGER                    knife      knife         D   2  85   5   2   45   2   1-1     6      270 crit0                                                             
+ 83  0XF388  56 IID_IRONDAGGER                      knife      knife         C   5  80   5   3   40   3   1-1     9      360                                                                   
+ 84  0XF3C0  56 IID_STEELDAGGER                     knife      knife         B   8  85   5   5   35   4   1-1    12      420                                                                   
+ 85  0XF3F8  56 IID_SILVERDAGGER                    knife      knife         A  12  85   5   7   25   5   1-1    72     1800                                                                   
+ 86  0XF430  56 IID_KARD                            knife      knife         B   4  70  10   6   30   4   1-1    80     2400                                                                   
+ 87  0XF468  56 IID_STILETTO                        knife      knife         A   8  80  20   8   25   5   1-1   124     3100                                                                   
+ 88  0XF4A0  60 IID_BEASTKILLER                     knife      knife         D   9  65  20   8   20   2   1-1    60     1200                                          SFXC_BEAST               
+ 89  0XF4DC  56 IID_PESHKABZ                        knife      knife         S  13  90   0   9   30   5   1-2   420    12600                                                                   
+ 90  0XF514  56 IID_BASELARD                        knife      knife         *  18 100  15  10   50   6   1-1   372    18600                                                                   
+ 91  0XF54C  60 IID_FIRE                            flame      flame         E   5  90   0   3   40   1   1-2    20      800                                          SFXC_BEAST               
+ 92  0XF588  60 IID_ELFIRE                          flame      flame         D   7  85   0   5   35   2   1-2    60     2100                                          SFXC_BEAST               
+ 93  0XF5C4  60 IID_GIGAFIRE                        flame      flame         B   9  80   5   7   25   4   1-2   100     2500                                          SFXC_BEAST               
+ 94  0XF600  60 IID_BOLGANONE                       flame      flame         S  11  75   0   9   20   5   1-2   150     3000                                          SFXC_BEAST               
+ 95  0XF63C  72 IID_REXFLAME                        flame      flame         *  14 100   5  13   15   6   1-2   500     7500  | PRF:0x0,0x3000000,0x0                 SFXC_BEAST               
+ 96  0XF684  68 IID_CYMBELINE                       flame      flame         N  13  95  10   5   45   8   1-2     0        0 valuable, eqE                            SFXC_BEAST               
+ 97  0XF6C8  64 IID_METEOR                          flame      flame         C   8  70   0  18    5   2  3-10   150      750 longfar                                  SFXC_BEAST               
+ 98  0XF708  60 IID_THUNDER                         thunder    thunder       E   3  80   5   4   40   1   1-2    22      880                                          SFXC_DRAGON              
+ 99  0XF744  60 IID_ELTHUNDER                       thunder    thunder       C   5  75  10   6   35   2   1-2    42     1470                                          SFXC_DRAGON              
+100  0XF780  60 IID_GIGATHUNDER                     thunder    thunder       A   7  70  15   9   25   4   1-2   102     2550                                          SFXC_DRAGON              
+101  0XF7BC  60 IID_THORON                          thunder    thunder       S   9  65   5  11   20   5   1-2   160     3200                                          SFXC_DRAGON              
+102  0XF7F8  72 IID_REXBOLT                         thunder    thunder       *  12  95  15  14   15   6   1-2   600     9000  | PRF:,0x0,0x0                          SFXC_DRAGON              
+103  0XF840  64 IID_THUNDERSTORM                    thunder    thunder       B   6  60   5  19    5   3  3-10   160      800 longfar                                  SFXC_DRAGON              
+104  0XF880  60 IID_WIND                            wind       wind          E   4  95   0   2   40   1   1-2    18      720                                          SFXC_FLY                 
+105  0XF8BC  60 IID_ELWIND                          wind       wind          D   6  90   0   4   35   2   1-2    58     2030                                          SFXC_FLY                 
+106  0XF8F8  60 IID_GIGAWIND                        wind       wind          B   8  85  10   6   25   4   1-2    98     2450                                          SFXC_FLY                 
+107  0XF934  60 IID_TORNADO                         wind       wind          S  10  80   0   7   20   5   1-2   140     2800                                          SFXC_FLY                 
+108  0XF970  72 IID_REXCALIBUR                      wind       wind          *  13 105  10  12   15   6   1-2   450     6750  | PRF:0x0,RIMEAARMOR,0x0                SFXC_FLY                 
+109  0XF9B8  64 IID_BLIZZARD                        wind       wind          C   7  75   0  17    5   2  3-10   140      700 longfar                                  SFXC_FLY                 
+110  0XF9F8  56 IID_LIGHT                           light      light         E   3 100   0   1   40   1   1-2    24      960                                                                   
+111  0XFA30  56 IID_ELLIGHT                         light      light         C   5  95   0   3   35   2   1-2    64     2240                                                                   
+112  0XFA68  56 IID_SHINE                           light      light         A   7  90  10   5   25   4   1-2   104     2600                                                                   
+113  0XFAA0  60 IID_RESIRE                          light      light         S   6  85   0   7   20   4   1-2   200     4000 resire                                                            
+114  0XFADC  60 IID_VALAURA                         light      light         S   8  95   0  12   17   5   1-2   400     6800 poison                                                            
+115  0XFB18  68 IID_REXAURA                         light      light         *  12 110   5  11   15   6   1-2   800    12000  | PRF:0x0,,0x0                                                   
+116  0XFB5C  60 IID_PURGE                           light      light         B   5  80   0  16    5   3  3-10   200     1000 longfar                                                           
+117  0XFB98  72 IID_THANY                           light      light         N   8 100   0   1   45   2   1-2   250    11250 valuable, eqD                            SFXC_ARMOR, SFXC_KNIGHT  
+118  0XFBE0  68 IID_CREIDDYLED                      light      light         N  11 100  15  15   45   1   1-2     0        0 valuable, eqF, infinity                                           
+119  0XFC24  56 IID_WORM                            dark       dark          C   8  75   0   9   30   3   1-2    80     2400                                                                   
+120  0XFC5C  56 IID_KAREAU                          dark       dark          B  10  70   5  11   25   4   1-2   120     3000                                                                   
+121  0XFC94  56 IID_UERINE                          dark       dark          S  12  65   0  13   20   5   1-2   250     5000                                                                   
+122  0XFCCC  68 IID_BARVERT                         dark       dark          *  15  75  10  15   15   6   1-2   900    13500  | PRF:RIMEAARMOR,0x0,0x0                                         
+123  0XFD10  60 IID_FENRIR                          dark       dark          A   9  60   0  20    5   4  3-10   300     1500 longfar                                                           
+124  0XFD4C  64 IID_LIONFANG1                       blow       blow          A  11  95   0   0   46   1   1-1    10      460 blow, infinity                                                    
+125  0XFD8C  64 IID_LIONFANG2                       blow       blow          S  16  95   0   0   46   1   1-1    10      460 blow, infinity                                                    
+126  0XFDCC  64 IID_LIONFANG3                       blow       blow          *  21  95   0   0   46   1   1-1    10      460 blow, infinity                                                    
+127  0XFE0C  64 IID_KINGFANG1                       blow       blow          A  12 100   0   0   46   1   1-1    10      460 blow, infinity                                                    
+128  0XFE4C  64 IID_KINGFANG2                       blow       blow          S  17 100   0   0   46   1   1-1    10      460 blow, infinity                                                    
+129  0XFE8C  64 IID_KINGFANG3                       blow       blow          *  22 100   0   0   46   1   1-1    10      460 blow, infinity                                                    
+130  0XFECC  64 IID_TIGERFANG1                      blow       blow          A  10  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+131  0XFF0C  64 IID_TIGERFANG2                      blow       blow          S  15  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+132  0XFF4C  64 IID_TIGERFANG3                      blow       blow          *  20  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+133  0XFF8C  64 IID_NAIL1                           blow       blow          A   8  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+134  0XFFCC  64 IID_NAIL2                           blow       blow          S  13  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+135 0X1000C  64 IID_NAIL3                           blow       blow          *  18  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+136 0X1004C  64 IID_WOLFFANG1                       blow       blow          A   9  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+137 0X1008C  64 IID_WOLFFANG2                       blow       blow          S  14  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+138 0X100CC  64 IID_WOLFFANG3                       blow       blow          *  19  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+139 0X1010C  64 IID_KINGFANG_W1                     blow       blow          A  10  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+140 0X1014C  64 IID_KINGFANG_W2                     blow       blow          S  15  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+141 0X1018C  64 IID_KINGFANG_W3                     blow       blow          *  20 100   0   0   46   1   1-1    10      460 blow, infinity                                                    
+142 0X101CC  64 IID_CLAW1                           blow       blow          A   8  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+143 0X1020C  64 IID_CLAW2                           blow       blow          S  13  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+144 0X1024C  64 IID_CLAW3                           blow       blow          *  18  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+145 0X1028C  64 IID_KINGCLAW1                       blow       blow          A  10 100   0   0   46   1   1-1    10      460 blow, infinity                                                    
+146 0X102CC  64 IID_KINGCLAW2                       blow       blow          S  15 100   0   0   46   1   1-1    10      460 blow, infinity                                                    
+147 0X1030C  64 IID_KINGCLAW3                       blow       blow          *  20 100   0   0   46   1   1-1    10      460 blow, infinity                                                    
+148 0X1034C  64 IID_BEAK1                           blow       blow          A   7  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+149 0X1038C  64 IID_BEAK2                           blow       blow          S  12  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+150 0X103CC  64 IID_BEAK3                           blow       blow          *  17  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+151 0X1040C  64 IID_KINGBEAK1                       blow       blow          A   8  95   0   0   46   1   1-1    10      460 blow, infinity                                                    
+152 0X1044C  64 IID_KINGBEAK2                       blow       blow          S  13  95   0   0   46   1   1-1    10      460 blow, infinity                                                    
+153 0X1048C  64 IID_KINGBEAK3                       blow       blow          *  18 100   0   0   46   1   1-1    10      460 blow, infinity                                                    
+154 0X104CC  68 IID_REDBREATH1                      blow       blow          A  13  80   0   0   46   1   1-2    10      460 blow, infinity, breath                                            
+155 0X10510  68 IID_REDBREATH2                      blow       blow          S  18  90   0   0   46   1   1-2    10      460 blow, infinity, breath                                            
+156 0X10554  68 IID_REDBREATH3                      blow       blow          *  23 100   0   0   46   1   1-2    10      460 blow, infinity, breath                                            
+157 0X10598  68 IID_WHITEBREATH1                    blow       neutral       A  11  90   0   0   30   1   1-2    20      600 blow, infinity, breath                                            
+158 0X105DC  68 IID_WHITEBREATH2                    blow       neutral       S  16 100   0   0   30   1   1-2    20      600 blow, infinity, breath                                            
+159 0X10620  68 IID_WHITEBREATH3                    blow       neutral       *  21 110   0   0   30   1   1-2    20      600 blow, infinity, breath                                            
+160 0X10664  68 IID_BLACKBREATH_K1                  blow       blow          A  12  95   0   0   46   1   1-2    10      460 blow, infinity, breath                                            
+161 0X106A8  68 IID_BLACKBREATH_K2                  blow       blow          S  17 105   0   0   46   1   1-2    10      460 blow, infinity, breath                                            
+162 0X106EC  68 IID_BLACKBREATH_K3                  blow       blow          *  22 115   0   0   46   1   1-2    10      460 blow, infinity, breath                                            
+163 0X10730  68 IID_BLACKBREATH1                    blow       blow          A  15  95   0   0   46   1   1-2    10      460 blow, infinity, breath                                            
+164 0X10774  68 IID_BLACKBREATH2                    blow       blow          S  20 105   0   0   46   1   1-2    10      460 blow, infinity, breath                                            
+165 0X107B8  68 IID_BLACKBREATH3                    blow       blow          *  25 115   0   0   46   1   1-2    10      460 blow, infinity, breath                                            
+166 0X107FC  72 IID_FIRETAIL                        flame      flame         *  13  85   0   0   46   1   1-2    10      460 infinity, valuable, crit0, sealsteal                              
+167 0X10844  72 IID_THUNDERTAIL                     thunder    thunder       *  11  75   0   0   46   1   1-2    10      460 infinity, valuable, crit0, sealsteal                              
+168 0X1088C  72 IID_WINDTAIL                        wind       wind          *  12  90   0   0   46   1   1-2    10      460 infinity, valuable, crit0, sealsteal                              
+169 0X108D4  64 IID_SPRT_HEAL                       rod        rod           N   1 100   0   0   46   1   1-2    10      460 infinity, valuable                                                
+170 0X10914  64 IID_SPRT_HEAL_SP                    rod        rod           N   1 100   0   0   46   1   1-2    10      460 infinity, valuable                                                
+171 0X10954  84 IID_JOG_AP                          blow       blow          *  52 100   0   0   46   1 1-255    10      460 blow, infinity, valuable, finalonly, crit0, longfar, magblow                          
+172 0X109A8  84 IID_JOG_AL                          blow       light         *  50 100   0   0   46   1 1-255    10      460 blow, infinity, valuable, finalonly, crit0, longfar, magblow                          
+173 0X109FC  84 IID_JOG_AD                          blow       dark          *   0 100   0   0   46   1 1-255    10      460 blow, infinity, valuable, finalonly, crit0, longfar, magblow                          
+174 0X10A50  80 IID_JUDGE                           blow       light         *  50 100   0  16   46   1   1-2    10      460 blow, infinity, valuable, finalonly, crit0, magblow                          
+175 0X10AA0  84 IID_JOG_SL                          blow       light         *  50 100   0  20   46   1 1-255    10      460 blow, infinity, valuable, finalonly, crit0, longfar, magblow                          
+176 0X10AF4  84 IID_JOG_SP                          blow       blow          *  50 100   0  20   46   1 1-255    10      460 blow, infinity, valuable, finalonly, crit0, longfar, magblow                          
+177 0X10B48  84 IID_JOG_SD                          blow       dark          *   0 100   0  10   46   1 1-255    10      460 blow, infinity, valuable, finalonly, crit0, longfar, magblow                          
+178 0X10B9C  76 IID_JOG_SLNC                        blow       blow          *   0 100   0   0   46   1 1-255    10      460 blow, infinity, valuable, finalonly, magblow                          
+179 0X10BE8  76 IID_JOG_PRLYS                       blow       blow          *   0 100   0   0   46   1 1-255    10      460 blow, infinity, valuable, finalonly, magblow                          
+180 0X10C34  64 IID_LEKAIN_SLNC                     rod        rod           *   0 100   0   0   46   1 1-255    10      460 infinity, valuable                                                
+181 0X10C74  80 IID_DHEGINHANSEA_AP                 blow       blow          *  10 100   0   0   46   1 1-255    10      460 blow, infinity, valuable, crit0, longfar, magblow                          
+182 0X10CC4  72 IID_CEPHERAN_AL                     light      light         *  25 100   0   0   46   1 1-255    10      460 infinity, valuable, crit0, longfar                                
+183 0X10D0C  72 IID_CEPHERAN_SL                     light      light         *   5 100   0  25   46   1 1-255    10      460 infinity, valuable, crit0, longfar                                
+184 0X10D54  64 IID_FLUTTER                         blow       blow          N   4  90   0   2    1   5   1-2     0        0 infinity, flutter                                                 
+185 0X10D94  60 IID_LIVE                            rod        rod           E   0 100   5   2   40   3   1-1    20      800 healing                                                           
+186 0X10DD0  60 IID_RELIVE                          rod        rod           D   0 100  10   4   20   5   1-1    50     1000 healing                                                           
+187 0X10E0C  60 IID_RECOVER                         rod        rod           B   0 100  20   6   15   9   1-1   150     2250 healing                                                           
+188 0X10E48  60 IID_REBLOW                          rod        rod           C   0 100  25   5   15   7 1-255   250     3750 healing                                                           
+189 0X10E84  60 IID_RESERVE                         rod        rod           S   0 100  50   7    5  11 1-255  1000     5000 healing                                                           
+190 0X10EC0  60 IID_REST                            rod        rod           C   0 100  15   4   10   7   1-1   200     2000 rest                                                              
+191 0X10EFC  60 IID_SILENCE                         rod        rod           A   0  70  30   7    3   9 1-255   400     1200 curesilence                                                       
+192 0X10F38  64 IID_ELSILENCE                       rod        rod           S   0  80  30   7    2  11  1-30  1200     2400 curesilence, sealsteal                                            
+193 0X10F78  60 IID_SLEEP                           rod        rod           B   0  65  35   8    3   9 1-255   500     1500 curesleep                                                         
+194 0X10FB4  64 IID_ELSLEEP                         rod        rod           S   0  75  35   8    2  11  1-30  1500     3000 curesleep, sealsteal                                              
+195 0X10FF4  68 IID_RESCUE                          rod        rod           A   0 100  40   6    3   9 1-255   600     1800  | PRF:0x0,0x5000400,0x0                                          
+196 0X11038  64 IID_REWARP                          rod        rod           A   0 100  30   7   15  12  1-30  1000    15000 healing, sealsteal                                                
+197 0X11078  56 IID_TORCH                           rod        rod           D   0 100  15   5   10   5   0-0   100     1000                                                                   
+198 0X110B0  68 IID_HAMMERNE                        rod        rod           C   0 100  25   7    3   7   1-1   600     1800  | PRF:0x0,0x1000300,0x0                                          
+199 0X110F4  68 IID_UNLOCK                          rod        rod           D   0 100  15   7   10   5   1-1   150     1500  | PRF:0x0,0x3000100,0x0                                          
+200 0X11138  68 IID_MSHIELD                         rod        rod           C   0 100  20   4   15   7   1-1   150     2250  | PRF:0x0,0x2000200,0x0                                          
+201 0X1117C  76 IID_MATRONA                         rod        rod           *   0 100 100   3    3  13 1-255     0        0 healing, rest | PRF:0x0,	,0x0                                 
+202 0X111C8  76 IID_GODDESSROD                      rod        rod           *   0 100 100   4    3  13   1-1     0        0 healing, rest | PRF:0x0,	,0x0                                 
+203 0X11214  68 IID_ANGELROBE                       item       item              0   0   0   3    1   0   1-1  8000     8000  | PRF:0x7000000,0x0,0x0                                          
+204 0X11258  68 IID_ENERGYDROP                      item       item              0   0   0   3    1   0   1-1  8000     8000  | PRF:,0x0,0x0                                                   
+205 0X1129C  68 IID_SPIRITPOWDER                    item       item              0   0   0   2    1   0   1-1  8000     8000  | PRF:�	
+	,0x0,0x0                                          
+206 0X112E0  68 IID_SECRETBOOK                      item       item              0   0   0   3    1   0   1-1  8000     8000  | PRF:,0x0,0x0                                                   
+207 0X11324  68 IID_SPEEDWING                       item       item              0   0   0   1    1   0   1-1  8000     8000  | PRF:0x0,0x2000000,0x0                                          
+208 0X11368  68 IID_GODDESSICON                     item       item              0   0   0   5    1   0   1-1  8000     8000  | PRF:0x0,,0x0                                                   
+209 0X113AC  68 IID_DRAGONSHIELD                    item       item              0   0   0   8    1   0   1-1  8000     8000  | PRF:0x0,�	
+	,0x0                                          
+210 0X113F0  68 IID_TALISMAN                        item       item              0   0   0   1    1   0   1-1  8000     8000  | PRF:0x0,,0x0                                                   
+211 0X11434  68 IID_BOOTS                           item       item              0   0   0   6    1   0   1-1  8000     8000  | PRF:0x0,0x0,0x2000000                                          
+212 0X11478  68 IID_STATUESPALL                     item       item              0   0   0   2    1   0   1-1  8000     8000  | PRF:0x0,0x0,                                                   
+213 0X114BC  60 IID_MASTERPROOF                     item       item              0   0   0   3    1   0   1-1 10000    10000 valuable                                                          
+214 0X114F8  60 IID_MASTERCROWN                     item       item              0   0   0   5    1   0   1-1 30000    30000 valuable                                                          
+215 0X11534  64 IID_HOLYCROWN                       item       item              0   0   0   5    1   0   1-1 30000    30000 valuable, eqB                                                     
+216 0X11574  60 IID_SATORISIGN                      item       item              0   0   0   1    1   0   1-1 30000    30000 valuable                                                          
+217 0X115B0  56 IID_TREASUREKEY                     item       item              0   0   0   1    2   0   1-1   300      600                                                                   
+218 0X115E8  56 IID_DOORKEY                         item       item              0   0   0   2    2   0   1-1    50      100                                                                   
+219 0X11620  56 IID_HERB                            item       item              0   0   0   1   10   0   1-1    60      600                                                                   
+220 0X11658  56 IID_VULNERARY                       item       item              0   0   0   2    8   0   1-1   100      800                                                                   
+221 0X11690  56 IID_CONCOCTION                      item       item              0   0   0   2    6   0   1-1   200     1200                                                                   
+222 0X116C8  56 IID_ELIXIR                          item       item              0   0   0   3    3   0   1-1  1000     3000                                                                   
+223 0X11700  56 IID_OLIVI                           item       item              0   0   0   3    8   0   1-1   200     1600                                                                   
+224 0X11738  56 IID_HOLYWATER                       item       item              0   0   0   2    3   0   1-1   300      900                                                                   
+225 0X11770  56 IID_DETOXDRUG                       item       item              0   0   0   3    3   0   1-1   150      450                                                                   
+226 0X117A8  56 IID_PANAX                           item       item              0   0   0   4    3   0   1-1   500     1500                                                                   
+227 0X117E0  56 IID_JACKLIGHT                       item       item              0   0   0   3    5   0   1-1   100      500                                                                   
+228 0X11818  56 IID_MARTIALART                      item       item              0   0   0   3    1   0   1-1  8000     8000                                                                   
+229 0X11850  56 IID_SILVERCARD                      item       item              0   0   0   1    1   0   1-1  4000     4000                                                                   
+230 0X11888  56 IID_WHITEGEM                        item       item              0   0   0   5    1   0   1-1 20000    20000                                                                   
+231 0X118C0  56 IID_BLUEGEM                         item       item              0   0   0   5    1   0   1-1 10000    10000                                                                   
+232 0X118F8  56 IID_REDGEM                          item       item              0   0   0   5    1   0   1-1  5000     5000                                                                   
+233 0X11930  56 IID_WARPPOWDER                      item       item              0   0   0   2    1   0   1-1 10000    10000                                                                   
+234 0X11968  60 IID_SPECTERCARD                     card       card              5 100   0   1   15   0   1-2   200     3000 crit0                                                             
+235 0X119A4  60 IID_DEATHCARD                       card       card              8 100   0   1   10   0   1-2   500     5000 crit0                                                             
+236 0X119E0  60 IID_ANASTASISCARD                   card       card             12 100   0   1    5   0   1-2  1000     5000 crit0                                                             
+237 0X11A1C  56 IID_FREYRBOMB                       item       item             10   0   0   3    1   0   1-1   500      500                                                                   
+238 0X11A54  56 IID_SHINEBARRIER                    item       item              5   0   0   3    1   0   1-1   800      800                                                                   
+239 0X11A8C  60 IID_HOWL                            item       item              0   0   0   3    1   0   1-1  3000     3000 infinity                                                          
+240 0X11AC8  60 IID_CALL                            item       item              0   0   0   3    1   0   1-1  3000     3000 infinity                                                          
+241 0X11B04  60 IID_SONIC                           item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+242 0X11B40  60 IID_VORTEX                          item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+243 0X11B7C  60 IID_HALFBEAST                       item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+244 0X11BB8  60 IID_BLESSING                        item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+245 0X11BF4  60 IID_BOON                            item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+246 0X11C30  60 IID_REDWAVE                         item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+247 0X11C6C  60 IID_WHITEWAVE                       item       item              0   0   0   3    1   0   1-1  3000     3000 infinity                                                          
+248 0X11CA8  60 IID_BLACKWAVE                       item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+249 0X11CE4  60 IID_SHADE                           item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+250 0X11D20  60 IID_HIDE                            item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+251 0X11D5C  60 IID_CORROSION                       item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+252 0X11D98  60 IID_RELEASE                         item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+253 0X11DD4  60 IID_BATTLEWISE                      item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+254 0X11E10  60 IID_MIRACLE                         item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+255 0X11E4C  60 IID_RESOLVE                         item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+256 0X11E88  60 IID_WRATH                           item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+257 0X11EC4  60 IID_CANCEL                          item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+258 0X11F00  60 IID_ADEPT                           item       item              0   0   0   3    1   0   1-1  6000     6000 infinity                                                          
+259 0X11F3C  60 IID_COUNTER                         item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+260 0X11F78  60 IID_VANTAGE                         item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+261 0X11FB4  60 IID_WARMUP                          item       item              0   0   0   3    1   0   1-1  3000     3000 infinity                                                          
+262 0X11FF0  60 IID_MERCY                           item       item              0   0   0   3    1   0   1-1  3000     3000 infinity                                                          
+263 0X1202C  60 IID_THROUGH                         item       item              0   0   0   3    1   0   1-1  3000     3000 infinity                                                          
+264 0X12068  60 IID_NIHIL                           item       item              0   0   0   3    1   0   1-1  3000     3000 infinity                                                          
+265 0X120A4  60 IID_LUCKY                           item       item              0   0   0   3    1   0   1-1  6000     6000 infinity                                                          
+266 0X120E0  60 IID_EXPERT                          item       item              0   0   0   3    1   0   1-1  3000     3000 infinity                                                          
+267 0X1211C  60 IID_PROVOKE                         item       item              0   0   0   3    1   0   1-1  3000     3000 infinity                                                          
+268 0X12158  60 IID_DAUNT                           item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+269 0X12194  60 IID_PARAGON                         item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+270 0X121D0  60 IID_RENEWAL                         item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+271 0X1220C  60 IID_CURE                            item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+272 0X12248  60 IID_BLOSSOM                         item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+273 0X12284  60 IID_TEMPEST                         item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+274 0X122C0  60 IID_SERENITY                        item       item              0   0   0   3    1   0   1-1  3000     3000 infinity                                                          
+275 0X122FC  60 IID_CELERITY                        item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+276 0X12338  60 IID_SAVIOR                          item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+277 0X12374  60 IID_GUARD                           item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+278 0X123B0  60 IID_PAVIS                           item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+279 0X123EC  60 IID_BEASTBUSTER                     item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+280 0X12428  60 IID_BIRDBUSTER                      item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+281 0X12464  60 IID_DRAGONBUSTER                    item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+282 0X124A0  60 IID_PARITY                          item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+283 0X124DC  60 IID_GAMBLE                          item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+284 0X12518  60 IID_SMITE                           item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+285 0X12554  68 IID_VSBEAST                         item       item              0   0   0   3    1   0   1-1  8000     8000 infinity, humanonly, lycdamhalf                                   
+286 0X12598  68 IID_VSHUMAN                         item       item              0   0   0   3    1   0   1-1  8000     8000 infinity, beastonly, ���O�Y��������                               
+287 0X125DC  64 IID_DELPHISHIELD                    item       item              0   0   0   3    1   0   1-1 10000    10000 infinity, ��������                                                
+288 0X1261C  60 IID_KNIGHTSHIELD                    item       item              0   0   0   3    1   0   1-1  4000     4000 infinity                                                          
+289 0X12658  64 IID_TROOP                           item       item              0   0   0   3    2   0   1-1  1000     2000 infinity, movtw                                                   
+290 0X12698  60 IID_CHANGESTONE                     item       item              0   0   0   3    3   0   1-1  1000     3000 beastonly                                                         
+291 0X126D4  60 IID_CHANGESTONE1                    item       item              0   0   0  10    1   0   1-1  4000     4000 beastonly                                                         
+292 0X12710  60 IID_HALFCHANGE                      item       item              0   0   0   5    1   0   1-1  6000     6000 beastonly                                                         
+293 0X1274C  60 IID_CHANGEGEM                       item       item              0   0   0  12    5   0   1-1 15000    75000 beastonly                                                         
+294 0X12788  56 IID_COIN                            item       item              0   0   0   1    1   0   1-1     1        1                                                                   
+295 0X127C0  80 IID_RUDOLGEM                        item       item              0   0   0   1    1   0   1-1 40000    40000 valuable, sealsteal, ownerreinforce | PRF:0x0,,0x0                          
+
+==================================================================================================================================================================================================================
+  SWORD (23 items)
+==================================================================================================================================================================================================================
+  #  Offset  Sz IID                                 DispType   ActType    Rank  Mt Hit Crt  Wt  Use WXP   Rng   $/u TotPrice Attributes                               Effectiveness            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  0  0XDF48  56 IID_DELICATESWORD                   sword      sword         E   2 100   5   3   35   1   1-1    16      560                                                                   
+  1  0XDF80  60 IID_BRONZESWORD                     sword      sword         E   3  95   0   5   50   1   1-1     7      350 crit0                                                             
+  2  0XDFBC  56 IID_IRONSWORD                       sword      sword         D   6  90   0   7   50   2   1-1    10      500                                                                   
+  3  0XDFF4  56 IID_STEELSWORD                      sword      sword         C   9  85   0  11   40   3   1-1    20      800                                                                   
+  4  0XE02C  56 IID_SILVERSWORD                     sword      sword         A  12  80   0  10   30   5   1-1    60     1800                                                                   
+  5  0XE064  56 IID_IRONBLADE                       sword      sword         C  10  70   0  13   40   3   1-1    20      800                                                                   
+  6  0XE09C  56 IID_STEELBLADE                      sword      sword         B  13  65   0  17   35   4   1-1    40     1400                                                                   
+  7  0XE0D4  56 IID_SILVERBLADE                     sword      sword         A  16  60   0  16   30   5   1-1   120     3600                                                                   
+  8  0XE10C  60 IID_POISONSWORD                     sword      sword         D   6  90   0   7   50   1   1-1     6      300 poison                                                            
+  9  0XE148  60 IID_BRAVESWORD                      sword      sword         C   9  90   0   9   40   2   1-1    70     2800 twice                                                             
+ 10  0XE184  56 IID_KILLSWORD                       sword      sword         B   8  85  30   8   30   2   1-1   120     3600                                                                   
+ 11  0XE1BC  60 IID_DRAGONKILLER                    sword      sword         B  11  70   0  14   20   3   1-1   180     3600                                          SFXC_DRAGON              
+ 12  0XE1F8  56 IID_WATOU                           sword      sword         B   7  90  20   7   30   3   1-1   100     3000                                                                   
+ 13  0XE230  76 IID_CALADBORG                       sword      sword         N  15  85   5   8   40   2   1-1   150     6000 valuable, eqG | PRF:0x0,0x80000,0x0                               
+ 14  0XE27C  60 IID_WINDSWORD                       sword      sword         D   6  60   0  10   20   2   1-2    35      700 stormsw                                                           
+ 15  0XE2B8  60 IID_STORMSWORD                      sword      sword         B  12  50   0  11   20   3   1-2   200     4000 stormsw                                                           
+ 16  0XE2F4  60 IID_ENLILSWORD                      sword      sword         S  18  55   5  15   20   5   1-2   500    10000 stormsw                                                           
+ 17  0XE330  68 IID_VAGUEKATTI                      sword      sword         *  20  95   5  10   50   6   1-1   400    20000  | PRF:0x0,,0x0                                                   
+ 18  0XE374  68 IID_FLORETE                         sword      sword         N  14  95  15   5   45   4   1-2   200     9000 valuable, eqB, stormsw                                            
+ 19  0XE3B8  64 IID_ALONDITE                        sword      sword         N  12  75  10  17   50   5   1-1   150     7500 valuable, eqA                                                     
+ 20  0XE3F8  92 IID_RAGNELL                         sword      sword         N  18  80   5  20   15   2   1-2     0        0 valuable, eqA, stormsw, sealsteal, infinity, lookschange | PRF:0x0,	,0x0                          
+ 21  0XE454  80 IID_ETTARD                          sword      sword         *  18  80   5  20   15   8   1-2     0        0 valuable, stormsw, infinity | PRF:0x0,	,0x0                          
+ 22  0XE4A4  88 IID_AMITE                           sword      sword         N  15  90   0  10   40   2   1-1     0        0 valuable, eqC, twice, sealsteal, infinity | PRF:0x0,,0x0                          
+
+==================================================================================================================================================================================================================
+  LANCE (16 items)
+==================================================================================================================================================================================================================
+  #  Offset  Sz IID                                 DispType   ActType    Rank  Mt Hit Crt  Wt  Use WXP   Rng   $/u TotPrice Attributes                               Effectiveness            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 23  0XE4FC  56 IID_DELICATELANCE                   lance      lance         E   3  95   5   4   35   1   1-1    14      490                                                                   
+ 24  0XE534  60 IID_BRONZELANCE                     lance      lance         E   4  90   0   6   50   1   1-1     9      450 crit0                                                             
+ 25  0XE570  56 IID_IRONLANCE                       lance      lance         D   7  85   0   9   50   2   1-1    12      600                                                                   
+ 26  0XE5A8  56 IID_STEELLANCE                      lance      lance         C  10  80   0  13   40   3   1-1    24      960                                                                   
+ 27  0XE5E0  56 IID_SILVERLANCE                     lance      lance         A  13  80   0  12   30   5   1-1    72     2160                                                                   
+ 28  0XE618  56 IID_IRONSPEAR                       lance      lance         C  11  75   0  14   40   3   1-1    16      640                                                                   
+ 29  0XE650  56 IID_STEELSPEAR                      lance      lance         B  14  70   0  18   35   4   1-1    32     1120                                                                   
+ 30  0XE688  56 IID_SILVERSPEAR                     lance      lance         A  17  50   0  17   30   5   1-1    96     2880                                                                   
+ 31  0XE6C0  60 IID_POISONLANCE                     lance      lance         D   7  85   0   9   50   1   1-1     7      350 poison                                                            
+ 32  0XE6FC  60 IID_BRAVELANCE                      lance      lance         C  10  85   0  11   40   2   1-1    74     2960 twice                                                             
+ 33  0XE738  56 IID_KILLERLANCE                     lance      lance         B   9  80  30  10   30   2   1-1   144     4320                                                                   
+ 34  0XE770  60 IID_HORSEKILLER                     lance      lance         D  12  65   0  15   20   2   1-1    65     1300                                          SFXC_KNIGHT              
+ 35  0XE7AC  56 IID_HANDSPEAR                       lance      lance         D   7  65   0  11   20   2   1-2    30      600                                                                   
+ 36  0XE7E4  56 IID_SHORTSPEAR                      lance      lance         B  10  55   0  12   20   3   1-2   150     3000                                                                   
+ 37  0XE81C  56 IID_SLENDERSPEAR                    lance      lance         S  13  60   5  16   20   5   1-2   450     9000                                                                   
+ 38  0XE854  68 IID_ZANEZPHTE                       lance      lance         *  22 100   5  15   50   6   1-2   310    15500  | PRF:0x0,RIMEAARMOR,0x0                                         
+
+==================================================================================================================================================================================================================
+  AXE (16 items)
+==================================================================================================================================================================================================================
+  #  Offset  Sz IID                                 DispType   ActType    Rank  Mt Hit Crt  Wt  Use WXP   Rng   $/u TotPrice Attributes                               Effectiveness            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 39  0XE898  64 IID_BRONZEAXE                       axe        axe           E   5  85   0   7   50   2   1-1     5      250 crit0                                    SFXC_DOORBREAK           
+ 40  0XE8D8  60 IID_IRONAXE                         axe        axe           D   8  80   0  11   50   2   1-1     8      400                                          SFXC_DOORBREAK           
+ 41  0XE914  60 IID_STEELAXE                        axe        axe           C  11  75   0  15   40   3   1-1    16      640                                          SFXC_DOORBREAK           
+ 42  0XE950  60 IID_SILVERAXE                       axe        axe           A  14  70   0  14   30   5   1-1    48     1440                                          SFXC_DOORBREAK           
+ 43  0XE98C  60 IID_IRONPOLEAXE                     axe        axe           C  12  65   0  16   40   3   1-1    10      400                                          SFXC_DOORBREAK           
+ 44  0XE9C8  60 IID_STEELPOLEAXE                    axe        axe           B  15  60   0  20   35   4   1-1    20      700                                          SFXC_DOORBREAK           
+ 45  0XEA04  60 IID_SILVERPOLEAXE                   axe        axe           A  18  60   0  19   30   5   1-1    60     1800                                          SFXC_DOORBREAK           
+ 46  0XEA40  64 IID_POISONAXE                       axe        axe           D   8  80   0  11   50   1   1-1     5      250 poison                                   SFXC_DOORBREAK           
+ 47  0XEA80  64 IID_BRAVEAXE                        axe        axe           C  11  80   0  13   40   2   1-1    66     2640 twice                                    SFXC_DOORBREAK           
+ 48  0XEAC0  60 IID_KILLERAXE                       axe        axe           B  10  75  30  12   30   2   1-1    96     2880                                          SFXC_DOORBREAK           
+ 49  0XEAFC  64 IID_HAMMER                          axe        axe           D  13  60   0  17   20   2   1-1    40      800                                          SFXC_ARMOR, SFXC_DOORBREAK
+ 50  0XEB3C  60 IID_HANDAXE                         axe        axe           D   9  70   0  12   25   2   1-2    25      625                                          SFXC_DOORBREAK           
+ 51  0XEB78  60 IID_SHORTAXE                        axe        axe           B  12  60   0  13   15   3   1-2   100     1500                                          SFXC_DOORBREAK           
+ 52  0XEBB4  60 IID_TOMAHAWK                        axe        axe           S  15  65   5  17   15   5   1-2   400     6000                                          SFXC_DOORBREAK           
+ 53  0XEBF0  80 IID_TARVOS                          axe        axe           N  18 100   5  12   40   2   1-1   150     6000 valuable, eqI | PRF:0x0,,0x0             SFXC_DOORBREAK           
+ 54  0XEC40  72 IID_URVAN                           axe        axe           *  22 110   5  17   50   6   1-1   300    15000  | PRF:0x0,,0x0                          SFXC_DOORBREAK           
+
+==================================================================================================================================================================================================================
+  BOW (18 items)
+==================================================================================================================================================================================================================
+  #  Offset  Sz IID                                 DispType   ActType    Rank  Mt Hit Crt  Wt  Use WXP   Rng   $/u TotPrice Attributes                               Effectiveness            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 55  0XEC88  68 IID_BRONZEBOW                       bow        bow           E   3  80   0   4   50   1   2-2     8      400 expandrange, crit0                       SFXC_FLY                 
+ 56  0XECCC  64 IID_IRONBOW                         bow        bow           D   6  85   0   8   50   2   2-2    15      750 expandrange                              SFXC_FLY                 
+ 57  0XED0C  64 IID_STEELBOW                        bow        bow           C  10  80   0  10   35   3   2-2    30     1050 expandrange                              SFXC_FLY                 
+ 58  0XED4C  64 IID_SILVERBOW                       bow        bow           A  15  75   0   9   25   5   2-2    90     2250 expandrange                              SFXC_FLY                 
+ 59  0XED8C  60 IID_IRONLONGBOW                     bow        bow           C   8  65   0  15   20   2   2-3   100     2000                                          SFXC_FLY                 
+ 60  0XEDC8  60 IID_STEELLONGBOW                    bow        bow           B  12  60   0  18   20   3   2-3   200     4000                                          SFXC_FLY                 
+ 61  0XEE04  60 IID_SILVERLONGBOW                   bow        bow           S  17  55   0  17   20   5   2-3   600    12000                                          SFXC_FLY                 
+ 62  0XEE40  68 IID_POISONBOW                       bow        bow           D   6  85   0   8   50   1   2-2     8      400 expandrange, poison                      SFXC_FLY                 
+ 63  0XEE84  64 IID_KILLERBOW                       bow        bow           C   8  80  30   9   25   2   2-2    80     2000 expandrange                              SFXC_FLY                 
+ 64  0XEEC4  68 IID_BRAVEBOW                        bow        bow           B   9  85   0  10   40   2   2-2   180     7200 expandrange, twice                       SFXC_FLY                 
+ 65  0XEF08  64 IID_LOFABOW                         bow        bow           C   8  85   0   8   45   4   2-2    60     2700 expandrange                              SFXC_FLY                 
+ 66  0XEF48  64 IID_CHINONBOW                       bow        bow           A  16 100   5   6   50   5   2-2   160     8000 expandrange                              SFXC_FLY                 
+ 67  0XEF88  84 IID_LUGHNASAD                       bow        bow           N  16 100   5   5   40   2   2-2   150     6000 expandrange, valuable, eqH | PRF:0x0,0x5000000,0x0 SFXC_FLY                 
+ 68  0XEFDC  76 IID_VALFLECHE                       bow        bow           *  22 100   5  12   50   6   1-2   330    16500 expandrange | PRF:RIMEAARMOR,0x0,0x0     SFXC_FLY                 
+ 74  0XF154  68 IID_LONGARCH                        bow        bow           E  18 100   0  20    5   0  3-10     0        0 longfar, sh                              SFXC_FLY                 
+ 75  0XF198  68 IID_IRONARCH                        bow        bow           E  28  90   0  20    5   0  3-15     0        0 longfar, sh                              SFXC_FLY                 
+ 76  0XF1DC  68 IID_KILLERARCH                      bow        bow           E  26  95  10  20    5   0  3-10     0        0 longfar, sh                              SFXC_FLY                 
+ 77  0XF220  72 IID_ONAGER                          bow        bow           E  22 255   0  20    5   0  3-10     0        0 longfar, stone, absolutehit, crit0                                
+
+==================================================================================================================================================================================================================
+  BALLISTA (5 items)
+==================================================================================================================================================================================================================
+  #  Offset  Sz IID                                 DispType   ActType    Rank  Mt Hit Crt  Wt  Use WXP   Rng   $/u TotPrice Attributes                               Effectiveness            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 69  0XF028  60 IID_BOWGUN                          ballista   ballista      N  24 100   0  12   40   0   1-2    50     2000                                          SFXC_FLY                 
+ 70  0XF064  60 IID_CROSSBOW                        ballista   ballista      N  28 100   0  14   35   0   1-2   100     3500                                          SFXC_FLY                 
+ 71  0XF0A0  60 IID_TAKHSH                          ballista   ballista      N  30 100  10  16   30   0   1-2   200     6000                                          SFXC_FLY                 
+ 72  0XF0DC  60 IID_AQQAR                           ballista   ballista      N  34 100   0  18   25   0   1-2   250     6250                                          SFXC_FLY                 
+ 73  0XF118  60 IID_ARBALEST                        ballista   ballista      N  38 100  15  20   20   0   1-2   300     6000                                          SFXC_FLY                 
+
+==================================================================================================================================================================================================================
+  KNIFE (13 items)
+==================================================================================================================================================================================================================
+  #  Offset  Sz IID                                 DispType   ActType    Rank  Mt Hit Crt  Wt  Use WXP   Rng   $/u TotPrice Attributes                               Effectiveness            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 78  0XF268  60 IID_BRONZEKNIFE                     knife      knife         E   1  70   0   1   30   1   1-2    16      480 crit0                                                             
+ 79  0XF2A4  56 IID_IRONKNIFE                       knife      knife         D   2  65   0   2   25   2   1-2    20      500                                                                   
+ 80  0XF2DC  56 IID_STEELKNIFE                      knife      knife         C   4  60   0   3   20   3   1-2    40      800                                                                   
+ 81  0XF314  56 IID_SILVERKNIFE                     knife      knife         A   7  60   0   4   15   5   1-2   120     1800                                                                   
+ 82  0XF34C  60 IID_BRONZEDAGGER                    knife      knife         D   2  85   5   2   45   2   1-1     6      270 crit0                                                             
+ 83  0XF388  56 IID_IRONDAGGER                      knife      knife         C   5  80   5   3   40   3   1-1     9      360                                                                   
+ 84  0XF3C0  56 IID_STEELDAGGER                     knife      knife         B   8  85   5   5   35   4   1-1    12      420                                                                   
+ 85  0XF3F8  56 IID_SILVERDAGGER                    knife      knife         A  12  85   5   7   25   5   1-1    72     1800                                                                   
+ 86  0XF430  56 IID_KARD                            knife      knife         B   4  70  10   6   30   4   1-1    80     2400                                                                   
+ 87  0XF468  56 IID_STILETTO                        knife      knife         A   8  80  20   8   25   5   1-1   124     3100                                                                   
+ 88  0XF4A0  60 IID_BEASTKILLER                     knife      knife         D   9  65  20   8   20   2   1-1    60     1200                                          SFXC_BEAST               
+ 89  0XF4DC  56 IID_PESHKABZ                        knife      knife         S  13  90   0   9   30   5   1-2   420    12600                                                                   
+ 90  0XF514  56 IID_BASELARD                        knife      knife         *  18 100  15  10   50   6   1-1   372    18600                                                                   
+
+==================================================================================================================================================================================================================
+  FLAME (8 items)
+==================================================================================================================================================================================================================
+  #  Offset  Sz IID                                 DispType   ActType    Rank  Mt Hit Crt  Wt  Use WXP   Rng   $/u TotPrice Attributes                               Effectiveness            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 91  0XF54C  60 IID_FIRE                            flame      flame         E   5  90   0   3   40   1   1-2    20      800                                          SFXC_BEAST               
+ 92  0XF588  60 IID_ELFIRE                          flame      flame         D   7  85   0   5   35   2   1-2    60     2100                                          SFXC_BEAST               
+ 93  0XF5C4  60 IID_GIGAFIRE                        flame      flame         B   9  80   5   7   25   4   1-2   100     2500                                          SFXC_BEAST               
+ 94  0XF600  60 IID_BOLGANONE                       flame      flame         S  11  75   0   9   20   5   1-2   150     3000                                          SFXC_BEAST               
+ 95  0XF63C  72 IID_REXFLAME                        flame      flame         *  14 100   5  13   15   6   1-2   500     7500  | PRF:0x0,0x3000000,0x0                 SFXC_BEAST               
+ 96  0XF684  68 IID_CYMBELINE                       flame      flame         N  13  95  10   5   45   8   1-2     0        0 valuable, eqE                            SFXC_BEAST               
+ 97  0XF6C8  64 IID_METEOR                          flame      flame         C   8  70   0  18    5   2  3-10   150      750 longfar                                  SFXC_BEAST               
+166 0X107FC  72 IID_FIRETAIL                        flame      flame         *  13  85   0   0   46   1   1-2    10      460 infinity, valuable, crit0, sealsteal                              
+
+==================================================================================================================================================================================================================
+  THUNDER (7 items)
+==================================================================================================================================================================================================================
+  #  Offset  Sz IID                                 DispType   ActType    Rank  Mt Hit Crt  Wt  Use WXP   Rng   $/u TotPrice Attributes                               Effectiveness            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 98  0XF708  60 IID_THUNDER                         thunder    thunder       E   3  80   5   4   40   1   1-2    22      880                                          SFXC_DRAGON              
+ 99  0XF744  60 IID_ELTHUNDER                       thunder    thunder       C   5  75  10   6   35   2   1-2    42     1470                                          SFXC_DRAGON              
+100  0XF780  60 IID_GIGATHUNDER                     thunder    thunder       A   7  70  15   9   25   4   1-2   102     2550                                          SFXC_DRAGON              
+101  0XF7BC  60 IID_THORON                          thunder    thunder       S   9  65   5  11   20   5   1-2   160     3200                                          SFXC_DRAGON              
+102  0XF7F8  72 IID_REXBOLT                         thunder    thunder       *  12  95  15  14   15   6   1-2   600     9000  | PRF:,0x0,0x0                          SFXC_DRAGON              
+103  0XF840  64 IID_THUNDERSTORM                    thunder    thunder       B   6  60   5  19    5   3  3-10   160      800 longfar                                  SFXC_DRAGON              
+167 0X10844  72 IID_THUNDERTAIL                     thunder    thunder       *  11  75   0   0   46   1   1-2    10      460 infinity, valuable, crit0, sealsteal                              
+
+==================================================================================================================================================================================================================
+  WIND (7 items)
+==================================================================================================================================================================================================================
+  #  Offset  Sz IID                                 DispType   ActType    Rank  Mt Hit Crt  Wt  Use WXP   Rng   $/u TotPrice Attributes                               Effectiveness            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+104  0XF880  60 IID_WIND                            wind       wind          E   4  95   0   2   40   1   1-2    18      720                                          SFXC_FLY                 
+105  0XF8BC  60 IID_ELWIND                          wind       wind          D   6  90   0   4   35   2   1-2    58     2030                                          SFXC_FLY                 
+106  0XF8F8  60 IID_GIGAWIND                        wind       wind          B   8  85  10   6   25   4   1-2    98     2450                                          SFXC_FLY                 
+107  0XF934  60 IID_TORNADO                         wind       wind          S  10  80   0   7   20   5   1-2   140     2800                                          SFXC_FLY                 
+108  0XF970  72 IID_REXCALIBUR                      wind       wind          *  13 105  10  12   15   6   1-2   450     6750  | PRF:0x0,RIMEAARMOR,0x0                SFXC_FLY                 
+109  0XF9B8  64 IID_BLIZZARD                        wind       wind          C   7  75   0  17    5   2  3-10   140      700 longfar                                  SFXC_FLY                 
+168 0X1088C  72 IID_WINDTAIL                        wind       wind          *  12  90   0   0   46   1   1-2    10      460 infinity, valuable, crit0, sealsteal                              
+
+==================================================================================================================================================================================================================
+  LIGHT (11 items)
+==================================================================================================================================================================================================================
+  #  Offset  Sz IID                                 DispType   ActType    Rank  Mt Hit Crt  Wt  Use WXP   Rng   $/u TotPrice Attributes                               Effectiveness            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+110  0XF9F8  56 IID_LIGHT                           light      light         E   3 100   0   1   40   1   1-2    24      960                                                                   
+111  0XFA30  56 IID_ELLIGHT                         light      light         C   5  95   0   3   35   2   1-2    64     2240                                                                   
+112  0XFA68  56 IID_SHINE                           light      light         A   7  90  10   5   25   4   1-2   104     2600                                                                   
+113  0XFAA0  60 IID_RESIRE                          light      light         S   6  85   0   7   20   4   1-2   200     4000 resire                                                            
+114  0XFADC  60 IID_VALAURA                         light      light         S   8  95   0  12   17   5   1-2   400     6800 poison                                                            
+115  0XFB18  68 IID_REXAURA                         light      light         *  12 110   5  11   15   6   1-2   800    12000  | PRF:0x0,,0x0                                                   
+116  0XFB5C  60 IID_PURGE                           light      light         B   5  80   0  16    5   3  3-10   200     1000 longfar                                                           
+117  0XFB98  72 IID_THANY                           light      light         N   8 100   0   1   45   2   1-2   250    11250 valuable, eqD                            SFXC_ARMOR, SFXC_KNIGHT  
+118  0XFBE0  68 IID_CREIDDYLED                      light      light         N  11 100  15  15   45   1   1-2     0        0 valuable, eqF, infinity                                           
+182 0X10CC4  72 IID_CEPHERAN_AL                     light      light         *  25 100   0   0   46   1 1-255    10      460 infinity, valuable, crit0, longfar                                
+183 0X10D0C  72 IID_CEPHERAN_SL                     light      light         *   5 100   0  25   46   1 1-255    10      460 infinity, valuable, crit0, longfar                                
+
+==================================================================================================================================================================================================================
+  DARK (5 items)
+==================================================================================================================================================================================================================
+  #  Offset  Sz IID                                 DispType   ActType    Rank  Mt Hit Crt  Wt  Use WXP   Rng   $/u TotPrice Attributes                               Effectiveness            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+119  0XFC24  56 IID_WORM                            dark       dark          C   8  75   0   9   30   3   1-2    80     2400                                                                   
+120  0XFC5C  56 IID_KAREAU                          dark       dark          B  10  70   5  11   25   4   1-2   120     3000                                                                   
+121  0XFC94  56 IID_UERINE                          dark       dark          S  12  65   0  13   20   5   1-2   250     5000                                                                   
+122  0XFCCC  68 IID_BARVERT                         dark       dark          *  15  75  10  15   15   6   1-2   900    13500  | PRF:RIMEAARMOR,0x0,0x0                                         
+123  0XFD10  60 IID_FENRIR                          dark       dark          A   9  60   0  20    5   4  3-10   300     1500 longfar                                                           
+
+==================================================================================================================================================================================================================
+  ROD (21 items)
+==================================================================================================================================================================================================================
+  #  Offset  Sz IID                                 DispType   ActType    Rank  Mt Hit Crt  Wt  Use WXP   Rng   $/u TotPrice Attributes                               Effectiveness            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+169 0X108D4  64 IID_SPRT_HEAL                       rod        rod           N   1 100   0   0   46   1   1-2    10      460 infinity, valuable                                                
+170 0X10914  64 IID_SPRT_HEAL_SP                    rod        rod           N   1 100   0   0   46   1   1-2    10      460 infinity, valuable                                                
+180 0X10C34  64 IID_LEKAIN_SLNC                     rod        rod           *   0 100   0   0   46   1 1-255    10      460 infinity, valuable                                                
+185 0X10D94  60 IID_LIVE                            rod        rod           E   0 100   5   2   40   3   1-1    20      800 healing                                                           
+186 0X10DD0  60 IID_RELIVE                          rod        rod           D   0 100  10   4   20   5   1-1    50     1000 healing                                                           
+187 0X10E0C  60 IID_RECOVER                         rod        rod           B   0 100  20   6   15   9   1-1   150     2250 healing                                                           
+188 0X10E48  60 IID_REBLOW                          rod        rod           C   0 100  25   5   15   7 1-255   250     3750 healing                                                           
+189 0X10E84  60 IID_RESERVE                         rod        rod           S   0 100  50   7    5  11 1-255  1000     5000 healing                                                           
+190 0X10EC0  60 IID_REST                            rod        rod           C   0 100  15   4   10   7   1-1   200     2000 rest                                                              
+191 0X10EFC  60 IID_SILENCE                         rod        rod           A   0  70  30   7    3   9 1-255   400     1200 curesilence                                                       
+192 0X10F38  64 IID_ELSILENCE                       rod        rod           S   0  80  30   7    2  11  1-30  1200     2400 curesilence, sealsteal                                            
+193 0X10F78  60 IID_SLEEP                           rod        rod           B   0  65  35   8    3   9 1-255   500     1500 curesleep                                                         
+194 0X10FB4  64 IID_ELSLEEP                         rod        rod           S   0  75  35   8    2  11  1-30  1500     3000 curesleep, sealsteal                                              
+195 0X10FF4  68 IID_RESCUE                          rod        rod           A   0 100  40   6    3   9 1-255   600     1800  | PRF:0x0,0x5000400,0x0                                          
+196 0X11038  64 IID_REWARP                          rod        rod           A   0 100  30   7   15  12  1-30  1000    15000 healing, sealsteal                                                
+197 0X11078  56 IID_TORCH                           rod        rod           D   0 100  15   5   10   5   0-0   100     1000                                                                   
+198 0X110B0  68 IID_HAMMERNE                        rod        rod           C   0 100  25   7    3   7   1-1   600     1800  | PRF:0x0,0x1000300,0x0                                          
+199 0X110F4  68 IID_UNLOCK                          rod        rod           D   0 100  15   7   10   5   1-1   150     1500  | PRF:0x0,0x3000100,0x0                                          
+200 0X11138  68 IID_MSHIELD                         rod        rod           C   0 100  20   4   15   7   1-1   150     2250  | PRF:0x0,0x2000200,0x0                                          
+201 0X1117C  76 IID_MATRONA                         rod        rod           *   0 100 100   3    3  13 1-255     0        0 healing, rest | PRF:0x0,	,0x0                                 
+202 0X111C8  76 IID_GODDESSROD                      rod        rod           *   0 100 100   4    3  13   1-1     0        0 healing, rest | PRF:0x0,	,0x0                                 
+
+==================================================================================================================================================================================================================
+  BLOW (53 items)
+==================================================================================================================================================================================================================
+  #  Offset  Sz IID                                 DispType   ActType    Rank  Mt Hit Crt  Wt  Use WXP   Rng   $/u TotPrice Attributes                               Effectiveness            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+124  0XFD4C  64 IID_LIONFANG1                       blow       blow          A  11  95   0   0   46   1   1-1    10      460 blow, infinity                                                    
+125  0XFD8C  64 IID_LIONFANG2                       blow       blow          S  16  95   0   0   46   1   1-1    10      460 blow, infinity                                                    
+126  0XFDCC  64 IID_LIONFANG3                       blow       blow          *  21  95   0   0   46   1   1-1    10      460 blow, infinity                                                    
+127  0XFE0C  64 IID_KINGFANG1                       blow       blow          A  12 100   0   0   46   1   1-1    10      460 blow, infinity                                                    
+128  0XFE4C  64 IID_KINGFANG2                       blow       blow          S  17 100   0   0   46   1   1-1    10      460 blow, infinity                                                    
+129  0XFE8C  64 IID_KINGFANG3                       blow       blow          *  22 100   0   0   46   1   1-1    10      460 blow, infinity                                                    
+130  0XFECC  64 IID_TIGERFANG1                      blow       blow          A  10  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+131  0XFF0C  64 IID_TIGERFANG2                      blow       blow          S  15  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+132  0XFF4C  64 IID_TIGERFANG3                      blow       blow          *  20  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+133  0XFF8C  64 IID_NAIL1                           blow       blow          A   8  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+134  0XFFCC  64 IID_NAIL2                           blow       blow          S  13  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+135 0X1000C  64 IID_NAIL3                           blow       blow          *  18  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+136 0X1004C  64 IID_WOLFFANG1                       blow       blow          A   9  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+137 0X1008C  64 IID_WOLFFANG2                       blow       blow          S  14  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+138 0X100CC  64 IID_WOLFFANG3                       blow       blow          *  19  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+139 0X1010C  64 IID_KINGFANG_W1                     blow       blow          A  10  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+140 0X1014C  64 IID_KINGFANG_W2                     blow       blow          S  15  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+141 0X1018C  64 IID_KINGFANG_W3                     blow       blow          *  20 100   0   0   46   1   1-1    10      460 blow, infinity                                                    
+142 0X101CC  64 IID_CLAW1                           blow       blow          A   8  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+143 0X1020C  64 IID_CLAW2                           blow       blow          S  13  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+144 0X1024C  64 IID_CLAW3                           blow       blow          *  18  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+145 0X1028C  64 IID_KINGCLAW1                       blow       blow          A  10 100   0   0   46   1   1-1    10      460 blow, infinity                                                    
+146 0X102CC  64 IID_KINGCLAW2                       blow       blow          S  15 100   0   0   46   1   1-1    10      460 blow, infinity                                                    
+147 0X1030C  64 IID_KINGCLAW3                       blow       blow          *  20 100   0   0   46   1   1-1    10      460 blow, infinity                                                    
+148 0X1034C  64 IID_BEAK1                           blow       blow          A   7  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+149 0X1038C  64 IID_BEAK2                           blow       blow          S  12  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+150 0X103CC  64 IID_BEAK3                           blow       blow          *  17  90   0   0   46   1   1-1    10      460 blow, infinity                                                    
+151 0X1040C  64 IID_KINGBEAK1                       blow       blow          A   8  95   0   0   46   1   1-1    10      460 blow, infinity                                                    
+152 0X1044C  64 IID_KINGBEAK2                       blow       blow          S  13  95   0   0   46   1   1-1    10      460 blow, infinity                                                    
+153 0X1048C  64 IID_KINGBEAK3                       blow       blow          *  18 100   0   0   46   1   1-1    10      460 blow, infinity                                                    
+154 0X104CC  68 IID_REDBREATH1                      blow       blow          A  13  80   0   0   46   1   1-2    10      460 blow, infinity, breath                                            
+155 0X10510  68 IID_REDBREATH2                      blow       blow          S  18  90   0   0   46   1   1-2    10      460 blow, infinity, breath                                            
+156 0X10554  68 IID_REDBREATH3                      blow       blow          *  23 100   0   0   46   1   1-2    10      460 blow, infinity, breath                                            
+157 0X10598  68 IID_WHITEBREATH1                    blow       neutral       A  11  90   0   0   30   1   1-2    20      600 blow, infinity, breath                                            
+158 0X105DC  68 IID_WHITEBREATH2                    blow       neutral       S  16 100   0   0   30   1   1-2    20      600 blow, infinity, breath                                            
+159 0X10620  68 IID_WHITEBREATH3                    blow       neutral       *  21 110   0   0   30   1   1-2    20      600 blow, infinity, breath                                            
+160 0X10664  68 IID_BLACKBREATH_K1                  blow       blow          A  12  95   0   0   46   1   1-2    10      460 blow, infinity, breath                                            
+161 0X106A8  68 IID_BLACKBREATH_K2                  blow       blow          S  17 105   0   0   46   1   1-2    10      460 blow, infinity, breath                                            
+162 0X106EC  68 IID_BLACKBREATH_K3                  blow       blow          *  22 115   0   0   46   1   1-2    10      460 blow, infinity, breath                                            
+163 0X10730  68 IID_BLACKBREATH1                    blow       blow          A  15  95   0   0   46   1   1-2    10      460 blow, infinity, breath                                            
+164 0X10774  68 IID_BLACKBREATH2                    blow       blow          S  20 105   0   0   46   1   1-2    10      460 blow, infinity, breath                                            
+165 0X107B8  68 IID_BLACKBREATH3                    blow       blow          *  25 115   0   0   46   1   1-2    10      460 blow, infinity, breath                                            
+171 0X10954  84 IID_JOG_AP                          blow       blow          *  52 100   0   0   46   1 1-255    10      460 blow, infinity, valuable, finalonly, crit0, longfar, magblow                          
+172 0X109A8  84 IID_JOG_AL                          blow       light         *  50 100   0   0   46   1 1-255    10      460 blow, infinity, valuable, finalonly, crit0, longfar, magblow                          
+173 0X109FC  84 IID_JOG_AD                          blow       dark          *   0 100   0   0   46   1 1-255    10      460 blow, infinity, valuable, finalonly, crit0, longfar, magblow                          
+174 0X10A50  80 IID_JUDGE                           blow       light         *  50 100   0  16   46   1   1-2    10      460 blow, infinity, valuable, finalonly, crit0, magblow                          
+175 0X10AA0  84 IID_JOG_SL                          blow       light         *  50 100   0  20   46   1 1-255    10      460 blow, infinity, valuable, finalonly, crit0, longfar, magblow                          
+176 0X10AF4  84 IID_JOG_SP                          blow       blow          *  50 100   0  20   46   1 1-255    10      460 blow, infinity, valuable, finalonly, crit0, longfar, magblow                          
+177 0X10B48  84 IID_JOG_SD                          blow       dark          *   0 100   0  10   46   1 1-255    10      460 blow, infinity, valuable, finalonly, crit0, longfar, magblow                          
+178 0X10B9C  76 IID_JOG_SLNC                        blow       blow          *   0 100   0   0   46   1 1-255    10      460 blow, infinity, valuable, finalonly, magblow                          
+179 0X10BE8  76 IID_JOG_PRLYS                       blow       blow          *   0 100   0   0   46   1 1-255    10      460 blow, infinity, valuable, finalonly, magblow                          
+181 0X10C74  80 IID_DHEGINHANSEA_AP                 blow       blow          *  10 100   0   0   46   1 1-255    10      460 blow, infinity, valuable, crit0, longfar, magblow                          
+184 0X10D54  64 IID_FLUTTER                         blow       blow          N   4  90   0   2    1   5   1-2     0        0 infinity, flutter                                                 
+
+==================================================================================================================================================================================================================
+  CARD (3 items)
+==================================================================================================================================================================================================================
+  #  Offset  Sz IID                                 DispType   ActType    Rank  Mt Hit Crt  Wt  Use WXP   Rng   $/u TotPrice Attributes                               Effectiveness            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+234 0X11968  60 IID_SPECTERCARD                     card       card              5 100   0   1   15   0   1-2   200     3000 crit0                                                             
+235 0X119A4  60 IID_DEATHCARD                       card       card              8 100   0   1   10   0   1-2   500     5000 crit0                                                             
+236 0X119E0  60 IID_ANASTASISCARD                   card       card             12 100   0   1    5   0   1-2  1000     5000 crit0                                                             
+
+==================================================================================================================================================================================================================
+  ITEM (90 items)
+==================================================================================================================================================================================================================
+  #  Offset  Sz IID                                 DispType   ActType    Rank  Mt Hit Crt  Wt  Use WXP   Rng   $/u TotPrice Attributes                               Effectiveness            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+203 0X11214  68 IID_ANGELROBE                       item       item              0   0   0   3    1   0   1-1  8000     8000  | PRF:0x7000000,0x0,0x0                                          
+204 0X11258  68 IID_ENERGYDROP                      item       item              0   0   0   3    1   0   1-1  8000     8000  | PRF:,0x0,0x0                                                   
+205 0X1129C  68 IID_SPIRITPOWDER                    item       item              0   0   0   2    1   0   1-1  8000     8000  | PRF:�	
+	,0x0,0x0                                          
+206 0X112E0  68 IID_SECRETBOOK                      item       item              0   0   0   3    1   0   1-1  8000     8000  | PRF:,0x0,0x0                                                   
+207 0X11324  68 IID_SPEEDWING                       item       item              0   0   0   1    1   0   1-1  8000     8000  | PRF:0x0,0x2000000,0x0                                          
+208 0X11368  68 IID_GODDESSICON                     item       item              0   0   0   5    1   0   1-1  8000     8000  | PRF:0x0,,0x0                                                   
+209 0X113AC  68 IID_DRAGONSHIELD                    item       item              0   0   0   8    1   0   1-1  8000     8000  | PRF:0x0,�	
+	,0x0                                          
+210 0X113F0  68 IID_TALISMAN                        item       item              0   0   0   1    1   0   1-1  8000     8000  | PRF:0x0,,0x0                                                   
+211 0X11434  68 IID_BOOTS                           item       item              0   0   0   6    1   0   1-1  8000     8000  | PRF:0x0,0x0,0x2000000                                          
+212 0X11478  68 IID_STATUESPALL                     item       item              0   0   0   2    1   0   1-1  8000     8000  | PRF:0x0,0x0,                                                   
+213 0X114BC  60 IID_MASTERPROOF                     item       item              0   0   0   3    1   0   1-1 10000    10000 valuable                                                          
+214 0X114F8  60 IID_MASTERCROWN                     item       item              0   0   0   5    1   0   1-1 30000    30000 valuable                                                          
+215 0X11534  64 IID_HOLYCROWN                       item       item              0   0   0   5    1   0   1-1 30000    30000 valuable, eqB                                                     
+216 0X11574  60 IID_SATORISIGN                      item       item              0   0   0   1    1   0   1-1 30000    30000 valuable                                                          
+217 0X115B0  56 IID_TREASUREKEY                     item       item              0   0   0   1    2   0   1-1   300      600                                                                   
+218 0X115E8  56 IID_DOORKEY                         item       item              0   0   0   2    2   0   1-1    50      100                                                                   
+219 0X11620  56 IID_HERB                            item       item              0   0   0   1   10   0   1-1    60      600                                                                   
+220 0X11658  56 IID_VULNERARY                       item       item              0   0   0   2    8   0   1-1   100      800                                                                   
+221 0X11690  56 IID_CONCOCTION                      item       item              0   0   0   2    6   0   1-1   200     1200                                                                   
+222 0X116C8  56 IID_ELIXIR                          item       item              0   0   0   3    3   0   1-1  1000     3000                                                                   
+223 0X11700  56 IID_OLIVI                           item       item              0   0   0   3    8   0   1-1   200     1600                                                                   
+224 0X11738  56 IID_HOLYWATER                       item       item              0   0   0   2    3   0   1-1   300      900                                                                   
+225 0X11770  56 IID_DETOXDRUG                       item       item              0   0   0   3    3   0   1-1   150      450                                                                   
+226 0X117A8  56 IID_PANAX                           item       item              0   0   0   4    3   0   1-1   500     1500                                                                   
+227 0X117E0  56 IID_JACKLIGHT                       item       item              0   0   0   3    5   0   1-1   100      500                                                                   
+228 0X11818  56 IID_MARTIALART                      item       item              0   0   0   3    1   0   1-1  8000     8000                                                                   
+229 0X11850  56 IID_SILVERCARD                      item       item              0   0   0   1    1   0   1-1  4000     4000                                                                   
+230 0X11888  56 IID_WHITEGEM                        item       item              0   0   0   5    1   0   1-1 20000    20000                                                                   
+231 0X118C0  56 IID_BLUEGEM                         item       item              0   0   0   5    1   0   1-1 10000    10000                                                                   
+232 0X118F8  56 IID_REDGEM                          item       item              0   0   0   5    1   0   1-1  5000     5000                                                                   
+233 0X11930  56 IID_WARPPOWDER                      item       item              0   0   0   2    1   0   1-1 10000    10000                                                                   
+237 0X11A1C  56 IID_FREYRBOMB                       item       item             10   0   0   3    1   0   1-1   500      500                                                                   
+238 0X11A54  56 IID_SHINEBARRIER                    item       item              5   0   0   3    1   0   1-1   800      800                                                                   
+239 0X11A8C  60 IID_HOWL                            item       item              0   0   0   3    1   0   1-1  3000     3000 infinity                                                          
+240 0X11AC8  60 IID_CALL                            item       item              0   0   0   3    1   0   1-1  3000     3000 infinity                                                          
+241 0X11B04  60 IID_SONIC                           item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+242 0X11B40  60 IID_VORTEX                          item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+243 0X11B7C  60 IID_HALFBEAST                       item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+244 0X11BB8  60 IID_BLESSING                        item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+245 0X11BF4  60 IID_BOON                            item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+246 0X11C30  60 IID_REDWAVE                         item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+247 0X11C6C  60 IID_WHITEWAVE                       item       item              0   0   0   3    1   0   1-1  3000     3000 infinity                                                          
+248 0X11CA8  60 IID_BLACKWAVE                       item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+249 0X11CE4  60 IID_SHADE                           item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+250 0X11D20  60 IID_HIDE                            item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+251 0X11D5C  60 IID_CORROSION                       item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+252 0X11D98  60 IID_RELEASE                         item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+253 0X11DD4  60 IID_BATTLEWISE                      item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+254 0X11E10  60 IID_MIRACLE                         item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+255 0X11E4C  60 IID_RESOLVE                         item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+256 0X11E88  60 IID_WRATH                           item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+257 0X11EC4  60 IID_CANCEL                          item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+258 0X11F00  60 IID_ADEPT                           item       item              0   0   0   3    1   0   1-1  6000     6000 infinity                                                          
+259 0X11F3C  60 IID_COUNTER                         item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+260 0X11F78  60 IID_VANTAGE                         item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+261 0X11FB4  60 IID_WARMUP                          item       item              0   0   0   3    1   0   1-1  3000     3000 infinity                                                          
+262 0X11FF0  60 IID_MERCY                           item       item              0   0   0   3    1   0   1-1  3000     3000 infinity                                                          
+263 0X1202C  60 IID_THROUGH                         item       item              0   0   0   3    1   0   1-1  3000     3000 infinity                                                          
+264 0X12068  60 IID_NIHIL                           item       item              0   0   0   3    1   0   1-1  3000     3000 infinity                                                          
+265 0X120A4  60 IID_LUCKY                           item       item              0   0   0   3    1   0   1-1  6000     6000 infinity                                                          
+266 0X120E0  60 IID_EXPERT                          item       item              0   0   0   3    1   0   1-1  3000     3000 infinity                                                          
+267 0X1211C  60 IID_PROVOKE                         item       item              0   0   0   3    1   0   1-1  3000     3000 infinity                                                          
+268 0X12158  60 IID_DAUNT                           item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+269 0X12194  60 IID_PARAGON                         item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+270 0X121D0  60 IID_RENEWAL                         item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+271 0X1220C  60 IID_CURE                            item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+272 0X12248  60 IID_BLOSSOM                         item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+273 0X12284  60 IID_TEMPEST                         item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+274 0X122C0  60 IID_SERENITY                        item       item              0   0   0   3    1   0   1-1  3000     3000 infinity                                                          
+275 0X122FC  60 IID_CELERITY                        item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+276 0X12338  60 IID_SAVIOR                          item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+277 0X12374  60 IID_GUARD                           item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+278 0X123B0  60 IID_PAVIS                           item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+279 0X123EC  60 IID_BEASTBUSTER                     item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+280 0X12428  60 IID_BIRDBUSTER                      item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+281 0X12464  60 IID_DRAGONBUSTER                    item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+282 0X124A0  60 IID_PARITY                          item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+283 0X124DC  60 IID_GAMBLE                          item       item              0   0   0   3    1   0   1-1  1000     1000 infinity                                                          
+284 0X12518  60 IID_SMITE                           item       item              0   0   0   3    1   0   1-1  2000     2000 infinity                                                          
+285 0X12554  68 IID_VSBEAST                         item       item              0   0   0   3    1   0   1-1  8000     8000 infinity, humanonly, lycdamhalf                                   
+286 0X12598  68 IID_VSHUMAN                         item       item              0   0   0   3    1   0   1-1  8000     8000 infinity, beastonly, ���O�Y��������                               
+287 0X125DC  64 IID_DELPHISHIELD                    item       item              0   0   0   3    1   0   1-1 10000    10000 infinity, ��������                                                
+288 0X1261C  60 IID_KNIGHTSHIELD                    item       item              0   0   0   3    1   0   1-1  4000     4000 infinity                                                          
+289 0X12658  64 IID_TROOP                           item       item              0   0   0   3    2   0   1-1  1000     2000 infinity, movtw                                                   
+290 0X12698  60 IID_CHANGESTONE                     item       item              0   0   0   3    3   0   1-1  1000     3000 beastonly                                                         
+291 0X126D4  60 IID_CHANGESTONE1                    item       item              0   0   0  10    1   0   1-1  4000     4000 beastonly                                                         
+292 0X12710  60 IID_HALFCHANGE                      item       item              0   0   0   5    1   0   1-1  6000     6000 beastonly                                                         
+293 0X1274C  60 IID_CHANGEGEM                       item       item              0   0   0  12    5   0   1-1 15000    75000 beastonly                                                         
+294 0X12788  56 IID_COIN                            item       item              0   0   0   1    1   0   1-1     1        1                                                                   
+295 0X127C0  80 IID_RUDOLGEM                        item       item              0   0   0   1    1   0   1-1 40000    40000 valuable, sealsteal, ownerreinforce | PRF:0x0,,0x0                          
