@@ -15,6 +15,7 @@ from fe10_mod_editor.models.shop_data import ShopDatabase
 from fe10_mod_editor.views.misc_tab import MiscTab
 from fe10_mod_editor.views.items_tab import ItemsTab
 from fe10_mod_editor.views.shops_tab import ShopsTab
+from fe10_mod_editor.views.build_tab import BuildTab
 
 
 class MainWindow(QMainWindow):
@@ -105,8 +106,11 @@ class MainWindow(QMainWindow):
         self._shops_tab = ShopsTab(self.project)
         self._tabs.addTab(self._shops_tab, "Shops")
 
-        # Build tab — placeholder
-        self._tabs.addTab(QWidget(), "Build")
+        # Build tab
+        self._build_tab = BuildTab(self.project)
+        self._tabs.addTab(self._build_tab, "Build")
+
+        self._tabs.currentChanged.connect(self._on_tab_changed)
 
         # Misc tab — fully implemented
         self._misc_tab = MiscTab(self.project)
@@ -127,6 +131,7 @@ class MainWindow(QMainWindow):
         self._refresh_items_tab()
         self._refresh_shops_tab()
         self._refresh_misc_tab()
+        self._refresh_build_tab()
         self._project_name_label.setText("  New project")
         self.statusBar().showMessage("New project created.")
 
@@ -147,6 +152,7 @@ class MainWindow(QMainWindow):
             self._refresh_items_tab()
             self._refresh_shops_tab()
             self._refresh_misc_tab()
+            self._refresh_build_tab()
             self._project_name_label.setText(f"  {path}")
             self.statusBar().showMessage(f"Opened: {path}")
         except Exception as exc:
@@ -251,3 +257,17 @@ class MainWindow(QMainWindow):
         self._tabs.removeTab(misc_index)
         self._tabs.insertTab(misc_index, self._misc_tab, "Misc")
         self._tabs.setCurrentIndex(misc_index)
+
+    def _refresh_build_tab(self):
+        """Sync build tab paths and refresh summary counts."""
+        self._build_tab.project = self.project
+        self._build_tab._backup_dir_edit.setText(self.project.paths.get("backup_dir", ""))
+        self._build_tab._game_dir_edit.setText(self.project.paths.get("game_dir", ""))
+        self._build_tab._refresh_validation()
+        self._build_tab.refresh_summary()
+
+    def _on_tab_changed(self, index: int):
+        """Refresh build tab summary when switching to it."""
+        build_index = 2  # Items=0, Shops=1, Build=2, Misc=3
+        if index == build_index:
+            self._build_tab.refresh_summary()
