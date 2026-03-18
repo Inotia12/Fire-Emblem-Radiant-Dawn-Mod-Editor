@@ -66,3 +66,34 @@ def test_mod_builder_applies_price_edit(build_env):
     output_cms = os.path.join(build_env["game_files"], "FE10Data.cms")
     assert os.path.exists(output_cms)
     assert os.path.getsize(output_cms) > 0
+
+
+def test_mod_builder_applies_character_growth_edit(build_env):
+    """Build with a character growth edit should modify FE10Data."""
+    from fe10_mod_editor.core.lz10 import decompress_lz10
+    from fe10_mod_editor.core.character_parser import parse_all_characters
+
+    proj = ProjectFile.new()
+    proj.paths["backup_dir"] = build_env["backup_dir"]
+    proj.paths["game_dir"] = build_env["game_dir"]
+    proj.backup_hashes = compute_backup_hashes(build_env["backup_dir"])
+
+    cms_path = os.path.join(build_env["backup_dir"], "FE10Data.cms")
+    with open(cms_path, "rb") as f:
+        orig_data = decompress_lz10(f.read())
+    chars = parse_all_characters(orig_data)
+    # Pick a character with known PID
+    target = next((c for c in chars if "IKE" in c["pid"]), chars[0])
+    target_pid = target["pid"]
+
+    proj.character_edits[target_pid] = {"growth_rates": {"hp": 99}}
+
+    builder = ModBuilder(proj, log_callback=lambda msg: None)
+    builder.build()
+
+    output_cms = os.path.join(build_env["game_files"], "FE10Data.cms")
+    with open(output_cms, "rb") as f:
+        modded_data = decompress_lz10(f.read())
+    modded_chars = parse_all_characters(modded_data)
+    modded_char = next(c for c in modded_chars if c["pid"] == target_pid)
+    assert modded_char["growth_rates"]["hp"] == 99

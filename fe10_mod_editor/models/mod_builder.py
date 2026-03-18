@@ -5,10 +5,12 @@ Steps:
 2. Decompress FE10Data.cms from backup
 3. Apply item edits (price, might, accuracy, etc.)
 4. Apply misc toggles (PRF removal, valuable removal, seal steal removal)
-5. Recompress with LZ10, pad to original size
-6. Parse shop files from backup, resolve per-chapter inventories, rebuild
-7. Update fst.bin with new shop file sizes
-8. Write all output to game directory
+5. Apply character edits (levels, growths, stats, skills)
+6. Apply class max stat edits (individual or preset)
+7. Recompress with LZ10, pad to original size
+8. Parse shop files from backup, resolve per-chapter inventories, rebuild
+9. Update fst.bin with new shop file sizes
+10. Write all output to game directory
 """
 
 import os
@@ -16,6 +18,8 @@ import struct
 from typing import Callable
 
 from fe10_mod_editor.core.backup_manager import verify_backup_hashes
+from fe10_mod_editor.core.character_parser import parse_all_characters
+from fe10_mod_editor.core.class_parser import parse_all_classes
 from fe10_mod_editor.core.cms_parser import resolve_string
 from fe10_mod_editor.core.fst_updater import patch_fst_sizes
 from fe10_mod_editor.core.item_parser import ITEM_DATA_OFFSET, parse_all_items
@@ -103,7 +107,34 @@ class ModBuilder:
             self.log("No misc toggles enabled.")
 
         # ------------------------------------------------------------------
-        # Step 5: Recompress with LZ10, pad to original size
+        # Step 5: Apply character edits
+        # ------------------------------------------------------------------
+        if proj.character_edits:
+            self.log(f"Applying {len(proj.character_edits)} character edit(s)...")
+            parsed_chars = parse_all_characters(bytes(data))
+            self._apply_character_edits(data, parsed_chars, proj.character_edits)
+        else:
+            self.log("No character edits to apply.")
+
+        # ------------------------------------------------------------------
+        # Step 6: Apply class max stat edits / preset
+        # ------------------------------------------------------------------
+        class_misc = proj.misc.get("class_changes", {})
+        set_all = class_misc.get("set_all_max_stats", False)
+        if set_all or proj.class_max_stat_edits:
+            parsed_classes = parse_all_classes(bytes(data))
+            if set_all:
+                preset = class_misc.get("max_stats_preset", 40)
+                self.log(f"Setting all class max stats to preset {preset} (HP +20)...")
+                self._apply_max_stats_preset(data, parsed_classes, preset)
+            elif proj.class_max_stat_edits:
+                self.log(f"Applying {len(proj.class_max_stat_edits)} class max stat edit(s)...")
+                self._apply_class_max_stat_edits(data, parsed_classes, proj.class_max_stat_edits)
+        else:
+            self.log("No class stat edits to apply.")
+
+        # ------------------------------------------------------------------
+        # Step 7: Recompress with LZ10, pad to original size
         # ------------------------------------------------------------------
         self.log("Recompressing FE10Data.cms (this may take a while)...")
         recompressed = bytearray(compress_lz10(bytes(data)))
@@ -120,7 +151,7 @@ class ModBuilder:
         self.log(f"Wrote FE10Data.cms ({len(recompressed)} bytes).")
 
         # ------------------------------------------------------------------
-        # Step 6: Rebuild shop files
+        # Step 8: Rebuild shop files
         # ------------------------------------------------------------------
         self.log("Rebuilding shop files...")
         shop_sizes = {}
@@ -142,7 +173,7 @@ class ModBuilder:
             self.log(f"  {shop_fname}: {len(new_shop)} bytes")
 
         # ------------------------------------------------------------------
-        # Step 7: Patch fst.bin with new shop file sizes
+        # Step 9: Patch fst.bin with new shop file sizes
         # ------------------------------------------------------------------
         self.log("Patching fst.bin...")
         fst_backup = os.path.join(backup_dir, "fst.bin")
@@ -282,6 +313,119 @@ class ModBuilder:
             self.log(f"  Valuable removed: {count_valuable_removed}")
         if remove_seal_steal:
             self.log(f"  Seal steal removed: {count_sealsteal_removed}")
+
+    def _apply_character_edits(
+        self,
+        data: bytearray,
+        parsed_chars: list[dict],
+        char_edits: dict[str, dict],
+    ):
+        """Apply per-character field edits to the decompressed binary."""
+        chars_by_pid = {c["pid"]: c for c in parsed_chars}
+
+        stat_names = ["hp", "str", "mag", "skl", "spd", "lck", "def", "res", "con", "mov"]
+        growth_names = ["hp", "str", "mag", "skl", "spd", "lck", "def", "res"]
+
+        for pid, edits in char_edits.items():
+            char = chars_by_pid.get(pid)
+            if char is None:
+                self.log(f"  WARNING: Character '{pid}' not found, skipping.")
+                continue
+
+            entry_offset = char["byte_offset"]
+            skill_count = char["skill_count"]
+            base = entry_offset + 32 + skill_count * 4 + 4 + 16
+
+            # Level (u8 at entry_offset + 2)
+            if "level" in edits:
+                data[entry_offset + 2] = edits["level"] & 0xFF
+
+            # Biorhythm type (u8 at base + 0)
+            if "biorhythm_type" in edits:
+                data[base] = edits["biorhythm_type"] & 0xFF
+
+            # Authority stars (u8 at base + 4)
+            if "authority_stars" in edits:
+                data[base + 4] = edits["authority_stars"] & 0xFF
+
+            # Laguz gauge (4 signed bytes at base + 5..8)
+            if "laguz_gauge" in edits:
+                lg = edits["laguz_gauge"]
+                gauge_keys = ["gain_turn", "gain_battle", "loss_turn", "loss_battle"]
+                for i, key in enumerate(gauge_keys):
+                    if key in lg:
+                        struct.pack_into("b", data, base + 5 + i, lg[key])
+
+            # Stat adjustments (10 signed bytes at base + 9..18)
+            if "stat_adjustments" in edits:
+                sa = edits["stat_adjustments"]
+                for i, name in enumerate(stat_names):
+                    if name in sa:
+                        struct.pack_into("b", data, base + 9 + i, sa[name])
+
+            # Growth rates (8 unsigned bytes at base + 19..26)
+            if "growth_rates" in edits:
+                gr = edits["growth_rates"]
+                for i, name in enumerate(growth_names):
+                    if name in gr:
+                        data[base + 19 + i] = gr[name] & 0xFF
+
+            # Skills (replace SID pointers at existing slot positions)
+            if "skill_ids" in edits:
+                new_skills = edits["skill_ids"]
+                slot_offsets = char["skill_slot_offsets"]
+                for i, slot_off in enumerate(slot_offsets):
+                    if i < len(new_skills) and new_skills[i]:
+                        sid_str = new_skills[i]
+                        ptr = self._find_sid_pointer(data, sid_str)
+                        if ptr is not None:
+                            struct.pack_into(">I", data, slot_off, ptr)
+                        else:
+                            self.log(f"  WARNING: SID '{sid_str}' not found for {pid}.")
+                    else:
+                        # Null out unused slots
+                        struct.pack_into(">I", data, slot_off, 0x00000000)
+
+    def _find_sid_pointer(self, data: bytearray, sid_str: str) -> int | None:
+        """Find a skill's CMS pointer by searching for its null-terminated string."""
+        sid_bytes = sid_str.encode("ascii") + b"\x00"
+        idx = bytes(data).find(sid_bytes)
+        if idx < 0:
+            return None
+        return idx - 0x20
+
+    def _apply_class_max_stat_edits(
+        self,
+        data: bytearray,
+        parsed_classes: list[dict],
+        class_edits: dict[str, dict],
+    ):
+        """Apply per-class max stat edits to the decompressed binary."""
+        classes_by_jid = {c["jid"]: c for c in parsed_classes}
+        stat_names = ("hp", "str", "mag", "skl", "spd", "lck", "def", "res")
+
+        for jid, edits in class_edits.items():
+            cls = classes_by_jid.get(jid)
+            if cls is None:
+                self.log(f"  WARNING: Class '{jid}' not found, skipping.")
+                continue
+            offset = cls["max_stats_offset"]
+            for i, name in enumerate(stat_names):
+                if name in edits:
+                    data[offset + i] = edits[name] & 0xFF
+
+    def _apply_max_stats_preset(
+        self,
+        data: bytearray,
+        parsed_classes: list[dict],
+        preset: int,
+    ):
+        """Set all classes' max stats to a preset value (HP gets preset + 20)."""
+        for cls in parsed_classes:
+            offset = cls["max_stats_offset"]
+            data[offset] = (preset + 20) & 0xFF  # HP
+            for i in range(1, 8):
+                data[offset + i] = preset & 0xFF
 
     def _resolve_shop_inventories(
         self,
