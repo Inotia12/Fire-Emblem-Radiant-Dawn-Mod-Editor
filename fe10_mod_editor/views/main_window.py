@@ -154,7 +154,7 @@ class MainWindow(QMainWindow):
             self._refresh_misc_tab()
             self._refresh_build_tab()
             self._project_name_label.setText(f"  {path}")
-            self.statusBar().showMessage(f"Opened: {path}")
+            self._update_status_bar_counts()
         except Exception as exc:
             QMessageBox.critical(self, "Open Failed", str(exc))
 
@@ -187,28 +187,24 @@ class MainWindow(QMainWindow):
 
     def _load_item_database(self):
         """Decompress FE10Data.cms from backup_dir and build ItemDatabase."""
+        from fe10_mod_editor.core.lz10 import decompress_lz10
+        from fe10_mod_editor.core.item_parser import parse_all_items
+
         backup_dir = self.project.paths.get("backup_dir", "")
         if not backup_dir:
             self.item_database = None
             return
 
-        cms_path = os.path.join(backup_dir, "FE10Data.cms.lz")
+        cms_path = os.path.join(backup_dir, "FE10Data.cms")
         if not os.path.isfile(cms_path):
-            # Also try uncompressed
-            cms_path_raw = os.path.join(backup_dir, "FE10Data.cms")
-            if os.path.isfile(cms_path_raw):
-                with open(cms_path_raw, "rb") as f:
-                    data = f.read()
-            else:
-                self.item_database = None
-                return
-        else:
-            from fe10_mod_editor.core.lz10 import decompress_lz10
-            with open(cms_path, "rb") as f:
-                compressed = f.read()
-            data = decompress_lz10(compressed)
+            self.item_database = None
+            return
 
-        from fe10_mod_editor.core.item_parser import parse_all_items
+        with open(cms_path, "rb") as f:
+            compressed = f.read()
+
+        # FE10Data.cms is LZ10-compressed; decompress before parsing
+        data = decompress_lz10(compressed)
         parsed = parse_all_items(data)
         self.item_database = ItemDatabase.from_parsed_items(parsed)
 
@@ -265,6 +261,14 @@ class MainWindow(QMainWindow):
         self._build_tab._game_dir_edit.setText(self.project.paths.get("game_dir", ""))
         self._build_tab._refresh_validation()
         self._build_tab.refresh_summary()
+
+    def _update_status_bar_counts(self):
+        """Update status bar with item count and modified count."""
+        item_count = self.item_database.count if self.item_database else 0
+        modified_count = len(self.project.item_edits)
+        self.statusBar().showMessage(
+            f"Loaded {item_count} items | {modified_count} modified"
+        )
 
     def _on_tab_changed(self, index: int):
         """Refresh build tab summary when switching to it."""
