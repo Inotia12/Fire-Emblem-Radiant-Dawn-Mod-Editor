@@ -12,9 +12,13 @@ from PySide6.QtCore import Qt
 from fe10_mod_editor.models.project import ProjectFile
 from fe10_mod_editor.models.item_data import ItemDatabase
 from fe10_mod_editor.models.shop_data import ShopDatabase
+from fe10_mod_editor.models.character_data import CharacterDatabase
+from fe10_mod_editor.models.class_data import ClassDatabase
+from fe10_mod_editor.models.skill_data import SkillDatabase
 from fe10_mod_editor.views.misc_tab import MiscTab
 from fe10_mod_editor.views.items_tab import ItemsTab
 from fe10_mod_editor.views.shops_tab import ShopsTab
+from fe10_mod_editor.views.characters_tab import CharactersTab
 from fe10_mod_editor.views.build_tab import FilesTab
 
 
@@ -26,6 +30,10 @@ class MainWindow(QMainWindow):
         self.project_path: str | None = None
         self.item_database: ItemDatabase | None = None
         self.shop_database: ShopDatabase | None = None
+        self.character_database: CharacterDatabase | None = None
+        self.class_database: ClassDatabase | None = None
+        self.skill_database: SkillDatabase | None = None
+        self._decompressed_fe10data: bytes | None = None
 
         self.setWindowTitle("FE10 Mod Editor")
         self.setMinimumSize(1200, 800)
@@ -111,6 +119,10 @@ class MainWindow(QMainWindow):
         self._shops_tab = ShopsTab(self.project)
         self._tabs.addTab(self._shops_tab, "Shops")
 
+        # Characters tab
+        self._characters_tab = CharactersTab(self.project)
+        self._tabs.addTab(self._characters_tab, "Characters")
+
         # Misc tab
         self._misc_tab = MiscTab(self.project)
         self._tabs.addTab(self._misc_tab, "Misc")
@@ -144,8 +156,13 @@ class MainWindow(QMainWindow):
         self.project_path = None
         self.item_database = None
         self.shop_database = None
+        self.character_database = None
+        self.class_database = None
+        self.skill_database = None
+        self._decompressed_fe10data = None
         self._refresh_items_tab()
         self._refresh_shops_tab()
+        self._refresh_characters_tab()
         self._refresh_misc_tab()
         self._refresh_files_tab()
         self._project_name_label.setText("  New project")
@@ -165,8 +182,10 @@ class MainWindow(QMainWindow):
             self.project_path = path
             self._load_item_database()
             self._load_shop_database()
+            self._load_character_data()
             self._refresh_items_tab()
             self._refresh_shops_tab()
+            self._refresh_characters_tab()
             self._refresh_misc_tab()
             self._refresh_files_tab()
             self._project_name_label.setText(f"  {path}")
@@ -205,8 +224,10 @@ class MainWindow(QMainWindow):
         """Called when the Files tab validates the game directory and backups are ready."""
         self._load_item_database()
         self._load_shop_database()
+        self._load_character_data()
         self._refresh_items_tab()
         self._refresh_shops_tab()
+        self._refresh_characters_tab()
         self._update_status_bar_counts()
 
     # ------------------------------------------------------------------
@@ -239,11 +260,13 @@ class MainWindow(QMainWindow):
         backup_dir = self.project.paths.get("backup_dir", "")
         if not backup_dir:
             self.item_database = None
+            self._decompressed_fe10data = None
             return
 
         cms_path = os.path.join(backup_dir, "FE10Data.cms")
         if not os.path.isfile(cms_path):
             self.item_database = None
+            self._decompressed_fe10data = None
             return
 
         with open(cms_path, "rb") as f:
@@ -251,6 +274,7 @@ class MainWindow(QMainWindow):
 
         # FE10Data.cms is LZ10-compressed; decompress before parsing
         data = decompress_lz10(compressed)
+        self._decompressed_fe10data = data
         parsed = parse_all_items(data)
         self.item_database = ItemDatabase.from_parsed_items(parsed)
 
@@ -294,11 +318,39 @@ class MainWindow(QMainWindow):
 
     def _refresh_misc_tab(self):
         """Replace the Misc tab widget after a project reload."""
-        misc_index = 3  # Files=0, Items=1, Shops=2, Misc=3
+        misc_index = 4  # Files=0, Items=1, Shops=2, Characters=3, Misc=4
         self._misc_tab = MiscTab(self.project)
         self._tabs.removeTab(misc_index)
         self._tabs.insertTab(misc_index, self._misc_tab, "Misc")
         self._tabs.setCurrentIndex(misc_index)
+
+    def _refresh_characters_tab(self):
+        """Update the Characters tab with current data sources."""
+        self._characters_tab.set_data(
+            self.character_database, self.class_database,
+            self.skill_database, self.project,
+        )
+
+    def _load_character_data(self):
+        """Parse characters, classes, and skills from cached decompressed FE10Data."""
+        if self._decompressed_fe10data is None:
+            self.character_database = None
+            self.class_database = None
+            self.skill_database = None
+            return
+
+        from fe10_mod_editor.core.character_parser import parse_all_characters
+        from fe10_mod_editor.core.class_parser import parse_all_classes
+        from fe10_mod_editor.core.skill_parser import parse_all_skills
+
+        data = self._decompressed_fe10data
+        parsed_chars = parse_all_characters(data)
+        parsed_classes = parse_all_classes(data)
+        parsed_skills = parse_all_skills(data)
+
+        self.character_database = CharacterDatabase.from_parsed(parsed_chars)
+        self.class_database = ClassDatabase.from_parsed(parsed_classes)
+        self.skill_database = SkillDatabase.from_parsed(parsed_skills)
 
     def _refresh_files_tab(self):
         """Sync files tab paths and refresh summary counts."""
@@ -317,6 +369,6 @@ class MainWindow(QMainWindow):
 
     def _on_tab_changed(self, index: int):
         """Refresh files tab summary when switching to it."""
-        files_index = 0  # Files=0, Items=1, Shops=2, Misc=3
+        files_index = 0  # Files=0, Items=1, Shops=2, Characters=3, Misc=4
         if index == files_index:
             self._files_tab.refresh_summary()
