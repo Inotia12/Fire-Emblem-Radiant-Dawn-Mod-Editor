@@ -11,8 +11,10 @@ from PySide6.QtCore import Qt
 
 from fe10_mod_editor.models.project import ProjectFile
 from fe10_mod_editor.models.item_data import ItemDatabase
+from fe10_mod_editor.models.shop_data import ShopDatabase
 from fe10_mod_editor.views.misc_tab import MiscTab
 from fe10_mod_editor.views.items_tab import ItemsTab
+from fe10_mod_editor.views.shops_tab import ShopsTab
 
 
 class MainWindow(QMainWindow):
@@ -22,6 +24,7 @@ class MainWindow(QMainWindow):
         self.project: ProjectFile = ProjectFile.new()
         self.project_path: str | None = None
         self.item_database: ItemDatabase | None = None
+        self.shop_database: ShopDatabase | None = None
 
         self.setWindowTitle("FE10 Mod Editor")
         self.setMinimumSize(1200, 800)
@@ -98,8 +101,9 @@ class MainWindow(QMainWindow):
         self._items_tab = ItemsTab(self.project, self.item_database)
         self._tabs.addTab(self._items_tab, "Items")
 
-        # Shops tab — placeholder
-        self._tabs.addTab(QWidget(), "Shops")
+        # Shops tab
+        self._shops_tab = ShopsTab(self.project)
+        self._tabs.addTab(self._shops_tab, "Shops")
 
         # Build tab — placeholder
         self._tabs.addTab(QWidget(), "Build")
@@ -119,7 +123,9 @@ class MainWindow(QMainWindow):
         self.project = ProjectFile.new()
         self.project_path = None
         self.item_database = None
+        self.shop_database = None
         self._refresh_items_tab()
+        self._refresh_shops_tab()
         self._refresh_misc_tab()
         self._project_name_label.setText("  New project")
         self.statusBar().showMessage("New project created.")
@@ -137,7 +143,9 @@ class MainWindow(QMainWindow):
             self.project = ProjectFile.load(path)
             self.project_path = path
             self._load_item_database()
+            self._load_shop_database()
             self._refresh_items_tab()
+            self._refresh_shops_tab()
             self._refresh_misc_tab()
             self._project_name_label.setText(f"  {path}")
             self.statusBar().showMessage(f"Opened: {path}")
@@ -197,6 +205,40 @@ class MainWindow(QMainWindow):
         from fe10_mod_editor.core.item_parser import parse_all_items
         parsed = parse_all_items(data)
         self.item_database = ItemDatabase.from_parsed_items(parsed)
+
+    def _load_shop_database(self):
+        """Parse a vanilla shop file from backup_dir and build ShopDatabase."""
+        backup_dir = self.project.paths.get("backup_dir", "")
+        if not backup_dir:
+            self.shop_database = None
+            return
+
+        # Try normal difficulty shop file first, fall back to others
+        shop_path = None
+        for filename in ("shopitem_n.bin", "shopitem_h.bin", "shopitem_m.bin"):
+            candidate = os.path.join(backup_dir, filename)
+            if os.path.isfile(candidate):
+                shop_path = candidate
+                break
+
+        if shop_path is None:
+            self.shop_database = None
+            return
+
+        from fe10_mod_editor.core.shop_parser import parse_shop_file
+        parsed = parse_shop_file(shop_path)
+
+        vanilla_weapons = parsed["wshop_items"]
+        vanilla_items = parsed["ishop_items"]
+        self.shop_database = ShopDatabase(vanilla_weapons, vanilla_items)
+
+        # Apply saved project edits
+        self.shop_database.load_from_dict(self.project.shop_edits)
+
+    def _refresh_shops_tab(self):
+        """Update the Shops tab with current data sources."""
+        self._shops_tab.project = self.project
+        self._shops_tab.set_data(self.item_database, self.shop_database)
 
     def _refresh_items_tab(self):
         """Update the Items tab with current project and item database."""
