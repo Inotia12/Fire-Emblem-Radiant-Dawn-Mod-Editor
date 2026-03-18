@@ -4,7 +4,7 @@ from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QGridLayout, QLabel, QSpinBox, QComboBox,
     QGroupBox, QFrame,
 )
-from PySide6.QtCore import Signal
+from PySide6.QtCore import Qt, Signal
 
 from fe10_mod_editor.models.character_data import CharacterEntry
 from fe10_mod_editor.models.class_data import ClassEntry
